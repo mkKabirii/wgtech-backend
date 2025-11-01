@@ -1,0 +1,57 @@
+const mongoose = require("mongoose");
+
+const workSchema = new mongoose.Schema(
+  {
+    workCategory: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    serviceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+      required: true,
+    },
+    subServiceIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "SubService",
+      },
+    ],
+    works: [
+      {
+        image: {
+          type: String,
+          required: true,
+        },
+        title: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+        description: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
+  },
+  {
+    timestamps: true,
+    collection: "works",
+  }
+);
+
+// Ensure collection is created
+mongoose.model("Work", workSchema).createCollection();
+
+module.exports = mongoose.model("Work", workSchema);

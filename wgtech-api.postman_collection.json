@@ -1,0 +1,1211 @@
+{
+    "info": {
+      "name": "WG Tech Backend API",
+      "description": "Complete API collection for WG Tech Backend",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "_exporter_id": "wgtech-api"
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": [
+        {
+          "key": "token",
+          "value": "{{authToken}}",
+          "type": "string"
+        }
+      ]
+    },
+    "item": [
+      {
+        "name": "Users",
+        "item": [
+          {
+            "name": "Get All Users",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/users",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "users"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"},
+                  {"key": "role", "value": "admin", "disabled": true},
+                  {"key": "isActive", "value": "true", "disabled": true}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get User by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/users/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "users", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create User",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"user@example.com\",\n  \"username\": \"john_doe\",\n  \"password\": \"password123\",\n  \"role\": \"user\",\n  \"designation\": \"\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/users",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "users"]
+              }
+            }
+          },
+          {
+            "name": "Update User",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"updated@example.com\",\n  \"username\": \"john_updated\",\n  \"role\": \"admin\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/users/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "users", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Toggle User Status",
+            "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/users/:id/toggle-status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "users", ":id", "toggle-status"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete User",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/users/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "users", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Services",
+        "item": [
+          {
+            "name": "Get All Services",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/services",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "services"]
+              }
+            }
+          },
+          {
+            "name": "Get Active Services",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/services/active",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "services", "active"]
+              }
+            }
+          },
+          {
+            "name": "Get Service by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/services/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "services", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Service",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Web Development\",\n  \"description\": \"Professional web development services\",\n  \"image\": \"https://example.com/image.jpg\",\n  \"status\": \"Active\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/services",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "services"]
+              }
+            }
+          },
+          {
+            "name": "Update Service",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Updated Service Title\",\n  \"description\": \"Updated description\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/services/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "services", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Toggle Service Status",
+            "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/services/:id/toggle-status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "services", ":id", "toggle-status"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Service",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/services/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "services", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Sub Services",
+        "item": [
+          {
+            "name": "Get All Sub Services",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/subservices",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "subservices"]
+              }
+            }
+          },
+          {
+            "name": "Get Sub Services by Service ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/subservices/service/:serviceId",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "subservices", "service", ":serviceId"],
+                "variable": [{"key": "serviceId", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Get Sub Service by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/subservices/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "subservices", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Sub Service",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"image\": \"https://example.com/image.jpg\",\n  \"title\": \"React Development\",\n  \"description\": \"Modern React applications\",\n  \"serviceId\": \"\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/subservices",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "subservices"]
+              }
+            }
+          },
+          {
+            "name": "Update Sub Service",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Updated Title\",\n  \"description\": \"Updated description\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/subservices/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "subservices", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Sub Service",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/subservices/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "subservices", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Reviews",
+        "item": [
+          {
+            "name": "Get All Reviews",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/reviews",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "reviews"]
+              }
+            }
+          },
+          {
+            "name": "Get Active Reviews",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/reviews/active",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "reviews", "active"]
+              }
+            }
+          },
+          {
+            "name": "Get Review by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/reviews/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "reviews", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Review",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"userInfo\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"image\": \"https://example.com/avatar.jpg\"\n  },\n  \"rating\": 5,\n  \"review\": \"Excellent service!\",\n  \"status\": \"active\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/reviews",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "reviews"]
+              }
+            }
+          },
+          {
+            "name": "Update Review",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"rating\": 4,\n  \"review\": \"Good service with room for improvement.\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/reviews/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "reviews", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Toggle Review Status",
+            "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/reviews/:id/toggle-status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "reviews", ":id", "toggle-status"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Review",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/reviews/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "reviews", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Works",
+        "item": [
+          {
+            "name": "Get All Works",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/works",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "works"]
+              }
+            }
+          },
+          {
+            "name": "Get Active Works",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/works/active",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "works", "active"]
+              }
+            }
+          },
+          {
+            "name": "Get Work by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/works/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "works", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Work",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"workCategory\": \"Website\",\n  \"serviceId\": \"\",\n  \"subServiceIds\": [],\n  \"works\": [\n    {\n      \"image\": \"https://example.com/work.jpg\",\n      \"title\": \"E-commerce Platform\",\n      \"url\": \"https://example.com/project\",\n      \"description\": \"Full-featured e-commerce solution\"\n    }\n  ],\n  \"status\": \"active\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/works",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "works"]
+              }
+            }
+          },
+          {
+            "name": "Update Work",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"workCategory\": \"Updated Category\",\n  \"status\": \"active\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/works/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "works", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Toggle Work Status",
+            "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/works/:id/toggle-status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "works", ":id", "toggle-status"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Work",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/works/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "works", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "About Us",
+        "item": [
+          {
+            "name": "Get All About Us",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/aboutus",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "aboutus"]
+              }
+            }
+          },
+          {
+            "name": "Get About Us by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/aboutus/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "aboutus", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create About Us",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"description\": \"We are a leading tech company...\",\n  \"image\": \"https://example.com/about.jpg\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/aboutus",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "aboutus"]
+              }
+            }
+          },
+          {
+            "name": "Update About Us",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"description\": \"Updated description\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/aboutus/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "aboutus", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete About Us",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/aboutus/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "aboutus", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Our Story",
+        "item": [
+          {
+            "name": "Get All Our Stories",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/ourstory",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "ourstory"]
+              }
+            }
+          },
+          {
+            "name": "Get Our Story by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/ourstory/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "ourstory", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Our Story",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Our Journey\",\n  \"description\": \"Started in 2020 with a vision...\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/ourstory",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "ourstory"]
+              }
+            }
+          },
+          {
+            "name": "Update Our Story",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Updated Title\",\n  \"description\": \"Updated story\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/ourstory/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "ourstory", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Our Story",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/ourstory/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "ourstory", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Our Team",
+        "item": [
+          {
+            "name": "Get All Team Members",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/team",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "team"]
+              }
+            }
+          },
+          {
+            "name": "Get Team Member by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/team/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "team", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Team Member",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"role\": \"\",\n  \"name\": \"John Doe\",\n  \"shortDescription\": \"Senior Developer\",\n  \"url\": [\n    {\n      \"siteName\": \"LinkedIn\",\n      \"link\": \"https://linkedin.com/in/johndoe\"\n    }\n  ]\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/team",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "team"]
+              }
+            }
+          },
+          {
+            "name": "Update Team Member",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Updated Name\",\n  \"shortDescription\": \"Updated title\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/team/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "team", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Team Member",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/team/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "team", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Team Roles",
+        "item": [
+          {
+            "name": "Get All Team Roles",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/teamroles",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "teamroles"]
+              }
+            }
+          },
+          {
+            "name": "Get Team Role by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/teamroles/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "teamroles", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Team Role",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"role\": \"Senior Developer\",\n  \"description\": \"Lead development projects\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/teamroles",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "teamroles"]
+              }
+            }
+          },
+          {
+            "name": "Update Team Role",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"role\": \"Senior Full-Stack Developer\",\n  \"description\": \"Updated description\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/teamroles/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "teamroles", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Team Role",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/teamroles/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "teamroles", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "User Roles",
+        "item": [
+          {
+            "name": "Get All User Roles",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/userroles",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "userroles"]
+              }
+            }
+          },
+          {
+            "name": "Get User Role by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/userroles/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "userroles", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create User Role",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"roleName\": \"Content Manager\",\n  \"assignedPages\": [\n    {\n      \"title\": \"Dashboard\",\n      \"route\": \"/dashboard\"\n    },\n    {\n      \"title\": \"Content\",\n      \"route\": \"/content\"\n    }\n  ]\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/userroles",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "userroles"]
+              }
+            }
+          },
+          {
+            "name": "Update User Role",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"roleName\": \"Updated Role\",\n  \"assignedPages\": [\n    {\n      \"title\": \"New Page\",\n      \"route\": \"/new-page\"\n    }\n  ]\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/userroles/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "userroles", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Add Page to User Role",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Settings\",\n  \"route\": \"/settings\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/userroles/:id/add-page",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "userroles", ":id", "add-page"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Remove Page from User Role",
+            "request": {
+              "method": "DELETE",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Settings\",\n  \"route\": \"/settings\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/userroles/:id/remove-page",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "userroles", ":id", "remove-page"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete User Role",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/userroles/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "userroles", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "FAQs",
+        "item": [
+          {
+            "name": "Get All FAQs",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/faqs",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "faqs"]
+              }
+            }
+          },
+          {
+            "name": "Get FAQ by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/faqs/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "faqs", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create FAQ",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"How to get started?\",\n  \"body\": \"Follow these simple steps...\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/faqs",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "faqs"]
+              }
+            }
+          },
+          {
+            "name": "Update FAQ",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Updated FAQ Title\",\n  \"body\": \"Updated answer\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/faqs/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "faqs", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete FAQ",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/faqs/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "faqs", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Advertisements",
+        "item": [
+          {
+            "name": "Get All Advertisements",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/advertisements",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "advertisements"]
+              }
+            }
+          },
+          {
+            "name": "Get Active Advertisements",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/advertisements/active",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "advertisements", "active"]
+              }
+            }
+          },
+          {
+            "name": "Get Advertisement by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/advertisements/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "advertisements", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Advertisement",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Special Offer\",\n  \"image\": \"https://example.com/ad.jpg\",\n  \"status\": \"Active\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/advertisements",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "advertisements"]
+              }
+            }
+          },
+          {
+            "name": "Update Advertisement",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Updated Offer\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/advertisements/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "advertisements", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Toggle Advertisement Status",
+            "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/advertisements/:id/toggle-status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "advertisements", ":id", "toggle-status"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Advertisement",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/advertisements/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "advertisements", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Opportunities",
+        "item": [
+          {
+            "name": "Get All Opportunities",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/opportunities",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "opportunities"]
+              }
+            }
+          },
+          {
+            "name": "Get Active Opportunities",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/opportunities/active",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "opportunities", "active"]
+              }
+            }
+          },
+          {
+            "name": "Get Opportunity by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/opportunities/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "opportunities", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Opportunity",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Internship Program\",\n  \"opportunity\": [\n    {\n      \"title\": \"Frontend Internship\",\n      \"description\": \"Work on modern React applications\",\n      \"image\": \"https://example.com/internship.jpg\"\n    }\n  ],\n  \"status\": \"Active\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/opportunities",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "opportunities"]
+              }
+            }
+          },
+          {
+            "name": "Update Opportunity",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Updated Program\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/opportunities/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "opportunities", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Toggle Opportunity Status",
+            "request": {
+              "method": "PATCH",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/opportunities/:id/toggle-status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "opportunities", ":id", "toggle-status"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Opportunity",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/opportunities/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "opportunities", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:8003",
+        "type": "string"
+      },
+      {
+        "key": "authToken",
+        "value": "",
+        "type": "string"
+      }
+    ]
+  }
