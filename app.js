@@ -25,6 +25,7 @@ const ourTeamRoutes = require("./routes/ourTeamRoutes");
 const teamRoleRoutes = require("./routes/teamRoleRoutes");
 const workRoutes = require("./routes/workRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 
 const app = express();
 
@@ -67,6 +68,7 @@ app.use("/api/v1/team", ourTeamRoutes);
 app.use("/api/v1/teamroles", teamRoleRoutes);
 app.use("/api/v1/works", workRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
+app.use("/api/v1/upload", uploadRoutes);
 
 // Handle unhandled routes
 app.all("*", (req, res, next) => {
