@@ -227,6 +227,47 @@ const createReviewSchema = Joi.object({
   status: Joi.string().valid('active', 'inactive').default('active')
 });
 
+// Resources validation schemas
+const createResourceSchema = Joi.object({
+  title: Joi.string().required(),
+  subTitle: Joi.string().optional(),
+  shortDescription: Joi.string().optional(),
+  longDescription: Joi.string().optional(),
+  image: Joi.string().optional(),
+  type: Joi.string().valid('blog', 'article', 'product').required()
+});
+
+const updateResourceSchema = Joi.object({
+  title: Joi.string().optional(),
+  subTitle: Joi.string().optional(),
+  shortDescription: Joi.string().optional(),
+  longDescription: Joi.string().optional(),
+  image: Joi.string().optional(),
+  type: Joi.string().valid('blog', 'article', 'product').optional()
+});
+
+// Events validation schemas
+const createEventSchema = Joi.object({
+  title: Joi.string().required(),
+  subTitle: Joi.string().optional(),
+  shortDescription: Joi.string().optional(),
+  longDescription: Joi.string().optional(),
+  image: Joi.array().items(
+    Joi.object({
+      name: Joi.string().required(),
+      url: Joi.string().required()
+    })
+  ).optional(),
+  video: Joi.array().items(
+    Joi.object({
+      name: Joi.string().required(),
+      url: Joi.string().required()
+    })
+  ).optional(),
+  location: Joi.string().optional(),
+  type: Joi.string().valid('upcoming_event', 'archive_event').required()
+});
+
 // Common validation for MongoDB ObjectId
 const mongoIdSchema = Joi.object({
   id: Joi.string().custom(validateMongoDbId).required()
@@ -272,6 +313,11 @@ module.exports = {
   updateTeamRoleSchema,
   // Review schemas
   createReviewSchema,
+  // Resources schemas
+  createResourceSchema,
+  updateResourceSchema,
+  // Events schemas
+  createEventSchema,
   // Common schemas
   mongoIdSchema
 };

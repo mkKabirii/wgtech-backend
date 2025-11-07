@@ -1194,6 +1194,248 @@
             }
           }
         ]
+      },
+      {
+        "name": "Resources",
+        "item": [
+          {
+            "name": "Get All Resources",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/resources",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "resources"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"},
+                  {"key": "type", "value": "blog", "disabled": true}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Blogs",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/resources/blogs",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "resources", "blogs"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Articles",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/resources/articles",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "resources", "articles"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Products",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/resources/products",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "resources", "products"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Resource by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/resources/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "resources", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Resource",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Web Development Best Practices\",\n  \"subTitle\": \"Modern Web Development Tips\",\n  \"shortDescription\": \"Learn the latest web development practices and improve your skills\",\n  \"longDescription\": \"<h1>Web Development Best Practices</h1><p>This is a comprehensive guide about web development...</p>\",\n  \"image\": \"https://example.com/images/web-dev-blog.jpg\",\n  \"type\": \"blog\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/resources",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "resources"]
+              }
+            }
+          },
+          {
+            "name": "Update Resource",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Updated Title\",\n  \"subTitle\": \"Updated Subtitle\",\n  \"shortDescription\": \"Updated description\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/resources/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "resources", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Resource",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/resources/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "resources", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Events",
+        "item": [
+          {
+            "name": "Get All Events",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/events",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "events"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"},
+                  {"key": "type", "value": "upcoming_event", "disabled": true}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Upcoming Events",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/events/upcoming",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "events", "upcoming"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Archive Events",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/events/archive",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "events", "archive"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Event by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/events/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "events", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Event",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Tech Conference 2024\",\n  \"subTitle\": \"Annual Tech Summit\",\n  \"shortDescription\": \"Join us for the biggest tech event of the year\",\n  \"longDescription\": \"<h1>Tech Conference 2024</h1><p>Details about the event...</p>\",\n  \"image\": [\n    {\n      \"name\": \"event-banner\",\n      \"url\": \"https://example.com/images/event-banner.jpg\"\n    }\n  ],\n  \"video\": [\n    {\n      \"name\": \"event-trailer\",\n      \"url\": \"https://example.com/videos/event-trailer.mp4\"\n    }\n  ],\n  \"location\": \"New York Convention Center\",\n  \"type\": \"upcoming_event\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/events",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "events"]
+              }
+            }
+          },
+          {
+            "name": "Update Event",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Updated Event Title\",\n  \"subTitle\": \"Updated Subtitle\",\n  \"location\": \"Updated Location\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/events/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "events", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Event",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/events/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "events", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
       }
     ],
     "variable": [
