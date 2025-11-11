@@ -268,6 +268,66 @@ const createEventSchema = Joi.object({
   type: Joi.string().valid('upcoming_event', 'archive_event').required()
 });
 
+// Proposal validation schemas
+const createProposalSchema = Joi.object({
+  fullname: Joi.string().min(3).max(120).required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string().allow(null, "").optional(),
+  company: Joi.string().allow(null, "").optional(),
+  services: Joi.array()
+    .items(Joi.string().custom(validateMongoDbId))
+    .optional(),
+  subServices: Joi.array()
+    .items(Joi.string().custom(validateMongoDbId))
+    .optional(),
+  budget: Joi.string().allow(null, "").optional(),
+  messages: Joi.string().allow(null, "").optional(),
+  status: Joi.string()
+    .valid("Pending", "Accepted", "Rejected", "In Progress", "Completed")
+    .optional(),
+  isActive: Joi.boolean().optional(),
+});
+
+const updateProposalSchema = Joi.object({
+  fullname: Joi.string().min(3).max(120).optional(),
+  email: Joi.string().email().optional(),
+  phone: Joi.string().allow(null, "").optional(),
+  company: Joi.string().allow(null, "").optional(),
+  services: Joi.array()
+    .items(Joi.string().custom(validateMongoDbId))
+    .optional(),
+  subServices: Joi.array()
+    .items(Joi.string().custom(validateMongoDbId))
+    .optional(),
+  budget: Joi.string().allow(null, "").optional(),
+  messages: Joi.string().allow(null, "").optional(),
+  status: Joi.string()
+    .valid("Pending", "Accepted", "Rejected", "In Progress", "Completed")
+    .optional(),
+  isActive: Joi.boolean().optional(),
+});
+
+const updateProposalStatusSchema = Joi.object({
+  status: Joi.string()
+    .valid("Pending", "Accepted", "Rejected", "In Progress", "Completed")
+    .required(),
+});
+
+// Phase validation schemas
+const createPhaseSchema = Joi.object({
+  title: Joi.string().min(2).max(150).required(),
+  description: Joi.string().required(),
+  proposalId: Joi.string().custom(validateMongoDbId).required(),
+  images: Joi.array().items(Joi.string()).optional(),
+});
+
+const updatePhaseSchema = Joi.object({
+  title: Joi.string().min(2).max(150).optional(),
+  description: Joi.string().optional(),
+  proposalId: Joi.string().custom(validateMongoDbId).optional(),
+  images: Joi.array().items(Joi.string()).optional(),
+});
+
 // Common validation for MongoDB ObjectId
 const mongoIdSchema = Joi.object({
   id: Joi.string().custom(validateMongoDbId).required()
@@ -318,6 +378,13 @@ module.exports = {
   updateResourceSchema,
   // Events schemas
   createEventSchema,
+  // Proposal schemas
+  createProposalSchema,
+  updateProposalSchema,
+  updateProposalStatusSchema,
+  // Phase schemas
+  createPhaseSchema,
+  updatePhaseSchema,
   // Common schemas
   mongoIdSchema
 };

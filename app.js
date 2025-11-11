@@ -28,6 +28,8 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const resourcesRoutes = require("./routes/resourcesRoutes");
 const eventsRoutes = require("./routes/eventsRoutes");
+const proposalsRoutes = require("./routes/proposalsRoutes");
+const phaseRoutes = require("./routes/phaseRoutes");
 
 const app = express();
 
@@ -73,6 +75,8 @@ app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/upload", uploadRoutes);
 app.use("/api/v1/resources", resourcesRoutes);
 app.use("/api/v1/events", eventsRoutes);
+app.use("/api/v1/proposals", proposalsRoutes);
+app.use("/api/v1/phases", phaseRoutes);
 
 // Handle unhandled routes
 app.all("*", (req, res, next) => {

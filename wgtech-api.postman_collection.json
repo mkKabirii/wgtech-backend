@@ -1436,6 +1436,187 @@
             }
           }
         ]
+      },
+      {
+        "name": "Proposals",
+        "item": [
+          {
+            "name": "Get All Proposals",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/proposals",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "proposals"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"},
+                  {"key": "status", "value": "Pending", "disabled": true},
+                  {"key": "isActive", "value": "true", "disabled": true},
+                  {"key": "search", "value": "john", "disabled": true}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Proposal by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/proposals/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "proposals", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Proposal",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"fullname\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"1234567890\",\n  \"company\": \"JD Solutions\",\n  \"services\": [\n    \"\"\n  ],\n  \"subServices\": [\n    \"\"\n  ],\n  \"budget\": \"5000-10000\",\n  \"messages\": \"Need a complete branding solution.\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/proposals",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "proposals"]
+              }
+            }
+          },
+          {
+            "name": "Update Proposal",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"fullname\": \"Johnathan Doe\",\n  \"company\": \"JD Innovations\",\n  \"messages\": \"Updated project requirements\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/proposals/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "proposals", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Update Proposal Status",
+            "request": {
+              "method": "PATCH",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"status\": \"Accepted\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/proposals/:id/status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "proposals", ":id", "status"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Proposal",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/proposals/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "proposals", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Phases",
+        "item": [
+          {
+            "name": "Get All Phases",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/phases",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "phases"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"},
+                  {"key": "proposalId", "value": "", "disabled": true}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Phase by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/phases/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "phases", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Create Phase",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Discovery\",\n  \"description\": \"Requirement gathering and project scoping\",\n  \"proposalId\": \"\",\n  \"images\": [\n    \"https://example.com/image1.jpg\"\n  ]\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/phases",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "phases"]
+              }
+            }
+          },
+          {
+            "name": "Update Phase",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"title\": \"Discovery & Planning\",\n  \"description\": \"Updated description\",\n  \"images\": [\n    \"https://example.com/image1.jpg\",\n    \"https://example.com/image2.jpg\"\n  ]\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/phases/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "phases", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Phase",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/phases/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "phases", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
       }
     ],
     "variable": [
