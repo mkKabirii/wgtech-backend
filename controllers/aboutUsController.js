@@ -18,7 +18,7 @@ const createAboutUs = catchAsync(async (req, res, next) => {
 
   const aboutUs = await AboutUs.create({
     description,
-    image
+    image,
   });
 
   successHandler(res, aboutUs, "About Us created successfully", 201);
@@ -26,21 +26,13 @@ const createAboutUs = catchAsync(async (req, res, next) => {
 
 // Get All About Us
 const getAllAboutUs = catchAsync(async (req, res, next) => {
-  const { page = 1, limit = 10 } = req.query;
+  const aboutUs = await AboutUs.findOne().sort({ createdAt: -1 });
 
-  const aboutUs = await AboutUs.find()
-    .limit(limit * 1)
-    .skip((page - 1) * limit)
-    .sort({ createdAt: -1 });
+  if (!aboutUs) {
+    return next(new AppError("About Us not found", 404));
+  }
 
-  const total = await AboutUs.countDocuments();
-
-  successHandler(res, {
-    aboutUs,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
-    total
-  }, "About Us retrieved successfully");
+  successHandler(res, aboutUs, "About Us retrieved successfully");
 });
 
 // Get About Us by ID
@@ -61,11 +53,10 @@ const updateAboutUs = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const updateData = req.body;
 
-  const aboutUs = await AboutUs.findByIdAndUpdate(
-    id,
-    updateData,
-    { new: true, runValidators: true }
-  );
+  const aboutUs = await AboutUs.findByIdAndUpdate(id, updateData, {
+    new: true,
+    runValidators: true,
+  });
 
   if (!aboutUs) {
     return next(new AppError("About Us not found", 404));
@@ -90,9 +81,7 @@ const deleteAboutUs = catchAsync(async (req, res, next) => {
 const getAllAboutUsofWeb = catchAsync(async (req, res) => {
   const [ourStory, ourTeam, aboutUs] = await Promise.all([
     OurStory.find().sort({ createdAt: -1 }),
-    TeamMember.find()
-      .populate({ path: "role" })
-      .sort({ createdAt: -1 }),
+    TeamMember.find().populate({ path: "role" }).sort({ createdAt: -1 }),
     AboutUs.find().sort({ createdAt: -1 }),
   ]);
 
