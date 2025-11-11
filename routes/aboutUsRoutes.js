@@ -5,12 +5,15 @@ const {
   getAllAboutUs,
   getAboutUsById,
   updateAboutUs,
-  deleteAboutUs
+  deleteAboutUs,
+  getAllAboutUsofWeb
 } = require("../controllers/aboutUsController");
 
 const router = express.Router();
 
 // Routes
+router.get("/web", getAllAboutUsofWeb);
+
 router.post("/", protect, createAboutUs);
 router.get("/", getAllAboutUs);
 router.get("/:id", getAboutUsById);

@@ -4,6 +4,8 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const { schemaValidator } = require("../utils/schemaValidator");
 const { createAboutUsSchema } = require("../utils/validation");
+const OurStory = require("../model/ourStoryModel");
+const TeamMember = require("../model/ourTeamModel");
 
 // Create About Us
 const createAboutUs = catchAsync(async (req, res, next) => {
@@ -85,10 +87,49 @@ const deleteAboutUs = catchAsync(async (req, res, next) => {
   successHandler(res, null, "About Us deleted successfully");
 });
 
+const getAllAboutUsofWeb = catchAsync(async (req, res) => {
+  const [ourStory, ourTeam, aboutUs] = await Promise.all([
+    OurStory.find().sort({ createdAt: -1 }),
+    TeamMember.find()
+      .populate({ path: "role" })
+      .sort({ createdAt: -1 }),
+    AboutUs.find().sort({ createdAt: -1 }),
+  ]);
+
+  const ourTeamByRoleMap = ourTeam.reduce((accumulator, member) => {
+    const roleId = member.role?._id?.toString() || "unassigned";
+
+    if (!accumulator[roleId]) {
+      accumulator[roleId] = {
+        role: member.role || null,
+        members: [],
+      };
+    }
+
+    accumulator[roleId].members.push(member);
+
+    return accumulator;
+  }, {});
+
+  const ourTeamByRole = Object.values(ourTeamByRoleMap);
+
+  successHandler(
+    res,
+    {
+      ourStory,
+      ourTeam,
+      aboutUs,
+      ourTeamByRole,
+    },
+    "About Us web data retrieved successfully"
+  );
+});
+
 module.exports = {
   createAboutUs,
   getAllAboutUs,
   getAboutUsById,
   updateAboutUs,
-  deleteAboutUs
+  deleteAboutUs,
+  getAllAboutUsofWeb,
 };
