@@ -82,7 +82,7 @@ const getAllAboutUsofWeb = catchAsync(async (req, res) => {
   const [ourStory, ourTeam, aboutUs] = await Promise.all([
     OurStory.find().sort({ createdAt: -1 }),
     TeamMember.find().populate({ path: "role" }).sort({ createdAt: -1 }),
-    AboutUs.find().sort({ createdAt: -1 }),
+    AboutUs.findOne().sort({ createdAt: -1 }),
   ]);
 
   const ourTeamByRoleMap = ourTeam.reduce((accumulator, member) => {
