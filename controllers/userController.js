@@ -44,7 +44,7 @@ const createUser = catchAsync(async (req, res, next) => {
 const loginUser = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).populate("designation");
   if (!user) {
     return next(new AppError("User not found", 404));
   }
@@ -93,7 +93,7 @@ const getUserById = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
   const user = await User.findById(id)
-    .populate("designation", "roleName assignedPages")
+    .populate("designation", "roleName routes")
     .select("-password");
 
   if (!user) {
@@ -116,7 +116,7 @@ const updateUser = catchAsync(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(id, updateData, {
     new: true,
     runValidators: true,
-  }).populate("designation", "roleName assignedPages");
+  }).populate("designation", "roleName routes");
 
   if (!user) {
     return next(new AppError("User not found", 404));

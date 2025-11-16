@@ -12,7 +12,7 @@ const createUserRole = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { roleName, assignedPages } = validatedData;
+  const { roleName, routes = [], status = true } = validatedData;
 
   // Check if role already exists
   const existingRole = await UserRole.findOne({ roleName });
@@ -22,7 +22,9 @@ const createUserRole = catchAsync(async (req, res, next) => {
 
   const userRole = await UserRole.create({
     roleName,
-    assignedPages
+    routes,
+    status,
+    totalRoutes: routes.length
   });
 
   successHandler(res, userRole, "UserRole created successfully", 201);
@@ -76,6 +78,10 @@ const updateUserRole = catchAsync(async (req, res, next) => {
     }
   }
 
+  if (updateData.routes) {
+    updateData.totalRoutes = updateData.routes.length;
+  }
+
   const userRole = await UserRole.findByIdAndUpdate(
     id,
     updateData,
@@ -105,7 +111,12 @@ const deleteUserRole = catchAsync(async (req, res, next) => {
 // Add Page to UserRole
 const addPageToUserRole = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const { title, route } = req.body;
+  const {
+    order,
+    title,
+    path,
+    permissions = []
+  } = req.body;
 
   const userRole = await UserRole.findById(id);
   if (!userRole) {
@@ -113,14 +124,15 @@ const addPageToUserRole = catchAsync(async (req, res, next) => {
   }
 
   // Check if page already exists
-  const existingPage = userRole.assignedPages.find(
-    page => page.route === route
+  const existingPage = userRole.routes.find(
+    page => page.path === path
   );
   if (existingPage) {
     return next(new AppError("Page with this route already exists", 400));
   }
 
-  userRole.assignedPages.push({ title, route });
+  userRole.routes.push({ title, path, order, permissions });
+  userRole.totalRoutes = userRole.routes.length;
   await userRole.save();
 
   successHandler(res, userRole, "Page added to UserRole successfully");
@@ -129,22 +141,23 @@ const addPageToUserRole = catchAsync(async (req, res, next) => {
 // Remove Page from UserRole
 const removePageFromUserRole = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const { route } = req.body;
+  const { path } = req.body;
 
   const userRole = await UserRole.findById(id);
   if (!userRole) {
     return next(new AppError("UserRole not found", 404));
   }
 
-  const pageIndex = userRole.assignedPages.findIndex(
-    page => page.route === route
+  const pageIndex = userRole.routes.findIndex(
+    page => page.path === path
   );
   
   if (pageIndex === -1) {
     return next(new AppError("Page not found in this role", 404));
   }
 
-  userRole.assignedPages.splice(pageIndex, 1);
+  userRole.routes.splice(pageIndex, 1);
+  userRole.totalRoutes = userRole.routes.length;
   await userRole.save();
 
   successHandler(res, userRole, "Page removed from UserRole successfully");

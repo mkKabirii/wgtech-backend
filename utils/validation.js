@@ -13,7 +13,6 @@ const createUserSchema = Joi.object({
   email: Joi.string().email().required(),
   username: Joi.string().required(),
   password: Joi.string().min(6).required(),
-  role: Joi.string().valid('user', 'admin', 'superadmin').default('user'),
   designation: Joi.string().custom(validateMongoDbId).optional()
 });
 
@@ -57,24 +56,27 @@ const updateSubServiceSchema = Joi.object({
 });
 
 // UserRole validation schemas
+const routeShape = Joi.object({
+  order: Joi.number().required(),
+  title: Joi.string().required(),
+  path: Joi.string().required(),
+  permissions: Joi.array()
+    .items(Joi.object().unknown(true))
+    .optional()
+    .default([])
+});
+
 const createUserRoleSchema = Joi.object({
   roleName: Joi.string().required(),
-  assignedPages: Joi.array().items(
-    Joi.object({
-      title: Joi.string().required(),
-      route: Joi.string().required()
-    })
-  ).min(1).required()
+  routes: Joi.array().items(routeShape).optional(),
+  status: Joi.boolean().optional()
 });
 
 const updateUserRoleSchema = Joi.object({
   roleName: Joi.string().optional(),
-  assignedPages: Joi.array().items(
-    Joi.object({
-      title: Joi.string().required(),
-      route: Joi.string().required()
-    })
-  ).optional()
+  routes: Joi.array().items(routeShape).optional(),
+  status: Joi.boolean().optional(),
+  totalRoutes: Joi.number().optional()
 });
 
 // AboutUs validation schemas
@@ -184,6 +186,7 @@ const createTeamMemberSchema = Joi.object({
   role: Joi.string().custom(validateMongoDbId).required(),
   name: Joi.string().required(),
   shortDescription: Joi.string().required(),
+  image: Joi.string().required(),
   url: Joi.array().items(
     Joi.object({
       siteName: Joi.string().required(),
@@ -196,6 +199,7 @@ const updateTeamMemberSchema = Joi.object({
   role: Joi.string().custom(validateMongoDbId).optional(),
   name: Joi.string().optional(),
   shortDescription: Joi.string().optional(),
+  image: Joi.string().optional(),
   url: Joi.array().items(
     Joi.object({
       siteName: Joi.string().required(),

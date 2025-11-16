@@ -1,28 +1,57 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const userRoleSchema = new mongoose.Schema(
+const routeSchema = new Schema(
+  {
+    order: {
+      type: Number,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    path: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    permissions: [
+      {
+        type: Schema.Types.Mixed,
+        default: {},
+      },
+    ],
+  },
+  { _id: false }
+);
+
+const userRoleSchema = new Schema(
   {
     roleName: {
       type: String,
       required: true,
       trim: true,
+      lowercase: true,
+      unique: true,
     },
-    assignedPages: [
-      {
-        title: {
-          type: String,
-          required: true,
-        },
-        route: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    totalRoutes: {
+      type: Number,
+      default: 0,
+    },
+    routes: {
+      type: [routeSchema],
+      default: [],
+    },
+    status: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
-    timestamps: true,
     collection: "userroles",
+    timestamps: true,
   }
 );
 
