@@ -12,13 +12,14 @@ const createTeamMember = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { role, name, shortDescription, url } = validatedData;
+  const { role, name, shortDescription, url , image} = validatedData;
 
   const teamMember = await TeamMember.create({
     role,
     name,
     shortDescription,
-    url
+    url,
+    image
   });
 
   successHandler(res, teamMember, "Team member created successfully", 201);
