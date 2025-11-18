@@ -1,4 +1,5 @@
 const Service = require("../model/serviceModel");
+const SubService = require("../model/subServiceModel");
 const { successHandler } = require("../utils/helper");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
@@ -113,6 +114,31 @@ const getActiveServices = catchAsync(async (req, res, next) => {
   successHandler(res, services, "Active services retrieved successfully");
 });
 
+// Get All Services with their Sub-Services (Only Active by default)
+const getServiceandItsSubservicesAll = catchAsync(async (req, res, next) => {
+  // By default only Active services
+  const filter = { status: 'Active' };
+
+  // Get all active services
+  const services = await Service.find(filter)
+    .sort({ createdAt: -1 });
+
+  // Get all sub-services grouped by serviceId
+  const subServices = await SubService.find({})
+    .sort({ createdAt: -1 });
+
+  // Map services with their sub-services
+  const servicesWithSubServices = services.map(service => {
+    const serviceObj = service.toObject();
+    serviceObj.subServices = subServices.filter(
+      subService => subService.serviceId.toString() === service._id.toString()
+    );
+    return serviceObj;
+  });
+
+  successHandler(res, servicesWithSubServices, "Services with sub-services retrieved successfully");
+});
+
 module.exports = {
   createService,
   getAllServices,
@@ -120,5 +146,6 @@ module.exports = {
   updateService,
   deleteService,
   toggleServiceStatus,
-  getActiveServices
+  getActiveServices,
+  getServiceandItsSubservicesAll
 };

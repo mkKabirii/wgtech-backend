@@ -7,7 +7,8 @@ const {
   updateService,
   deleteService,
   toggleServiceStatus,
-  getActiveServices
+  getActiveServices,
+  getServiceandItsSubservicesAll
 } = require("../controllers/serviceController");
 
 const router = express.Router();
@@ -16,6 +17,7 @@ const router = express.Router();
 router.post("/", protect, createService);
 router.get("/", getAllServices);
 router.get("/active", getActiveServices);
+router.get("/with-subservices", getServiceandItsSubservicesAll);
 router.get("/:id", getServiceById);
 router.put("/:id", protect, updateService);
 router.delete("/:id", protect, deleteService);
