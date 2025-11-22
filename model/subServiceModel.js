@@ -20,6 +20,11 @@ const subServiceSchema = new mongoose.Schema(
       ref: "Service",
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["Active", "Inactive"],
+      default: "Active",
+    },
   },
   {
     timestamps: true,

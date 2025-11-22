@@ -12,10 +12,11 @@ const createWork = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { workCategory, serviceId, subServiceIds, works, status } = validatedData;
+  const { workCategory, categoryDescription, serviceId, subServiceIds, works, status } = validatedData;
 
   const work = await Work.create({
     workCategory,
+    categoryDescription,
     serviceId,
     subServiceIds,
     works,
@@ -27,13 +28,13 @@ const createWork = catchAsync(async (req, res, next) => {
 
 // Get All Works
 const getAllWorks = catchAsync(async (req, res, next) => {
-  const { page = 1, limit = 10, status, serviceId, workCategory } = req.query;
+  const { page = 1, limit = 10, status, serviceId, workCategory, categoryDescription } = req.query;
   
   let filter = {};
-  if (status) filter.status = status;
+  if (status) filter.status = "Active";
   if (serviceId) filter.serviceId = serviceId;
   if (workCategory) filter.workCategory = workCategory;
-
+  if (categoryDescription) filter.categoryDescription = categoryDescription;
   const works = await Work.find(filter)
     .populate('serviceId', 'title description image')
     .populate('subServiceIds', 'title description image')

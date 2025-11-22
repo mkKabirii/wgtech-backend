@@ -7,6 +7,10 @@ const workSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    categoryDescription: {
+      type: String,
+      required: true,
+    },
     serviceId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Service",
@@ -21,7 +25,7 @@ const workSchema = new mongoose.Schema(
     works: [
       {
         image: {
-          type: String,
+          type: [String],
           required: true,
         },
         title: {

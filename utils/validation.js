@@ -45,14 +45,16 @@ const createSubServiceSchema = Joi.object({
   image: Joi.string().required(),
   title: Joi.string().required(),
   description: Joi.string().required(),
-  serviceId: Joi.string().custom(validateMongoDbId).required()
+  serviceId: Joi.string().custom(validateMongoDbId).required(),
+  status: Joi.string().valid('Active', 'Inactive').default('Active')
 });
 
 const updateSubServiceSchema = Joi.object({
   image: Joi.string().optional(),
   title: Joi.string().optional(),
   description: Joi.string().optional(),
-  serviceId: Joi.string().custom(validateMongoDbId).optional()
+  serviceId: Joi.string().custom(validateMongoDbId).optional(),
+  status: Joi.string().valid('Active', 'Inactive').optional()
 });
 
 // UserRole validation schemas
@@ -153,11 +155,12 @@ const updateOurStorySchema = Joi.object({
 // Work validation schemas
 const createWorkSchema = Joi.object({
   workCategory: Joi.string().required(),
+  categoryDescription: Joi.string().required(),
   serviceId: Joi.string().custom(validateMongoDbId).required(),
   subServiceIds: Joi.array().items(Joi.string().custom(validateMongoDbId)).optional(),
   works: Joi.array().items(
     Joi.object({
-      image: Joi.string().required(),
+      image: Joi.array().items(Joi.string()).required(),
       title: Joi.string().required(),
       url: Joi.string().required(),
       description: Joi.string().required()
@@ -168,6 +171,7 @@ const createWorkSchema = Joi.object({
 
 const updateWorkSchema = Joi.object({
   workCategory: Joi.string().optional(),
+  categoryDescription: Joi.string().optional(),
   serviceId: Joi.string().custom(validateMongoDbId).optional(),
   subServiceIds: Joi.array().items(Joi.string().custom(validateMongoDbId)).optional(),
   works: Joi.array().items(

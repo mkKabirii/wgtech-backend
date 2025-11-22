@@ -7,12 +7,16 @@ const { createResourceSchema } = require("../utils/validation");
 
 // Create Resource
 const createResource = catchAsync(async (req, res, next) => {
-  const [error, validatedData] = schemaValidator(req.body, createResourceSchema);
+  const [error, validatedData] = schemaValidator(
+    req.body,
+    createResourceSchema
+  );
   if (error) {
     return next(new AppError(error, 400));
   }
 
-  const { title, subTitle, shortDescription, longDescription, image, type } = validatedData;
+  const { title, subTitle, shortDescription, longDescription, image, type } =
+    validatedData;
 
   const resource = await Resources.create({
     title,
@@ -20,7 +24,7 @@ const createResource = catchAsync(async (req, res, next) => {
     shortDescription,
     longDescription,
     image,
-    type
+    type,
   });
 
   successHandler(res, resource, "Resource created successfully", 201);
@@ -29,7 +33,7 @@ const createResource = catchAsync(async (req, res, next) => {
 // Get All Resources
 const getAllResources = catchAsync(async (req, res, next) => {
   const { page = 1, limit = 10, type } = req.query;
-  
+
   let filter = {};
   if (type) filter.type = type;
 
@@ -40,12 +44,16 @@ const getAllResources = catchAsync(async (req, res, next) => {
 
   const total = await Resources.countDocuments(filter);
 
-  successHandler(res, {
-    resources,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
-    total
-  }, "Resources retrieved successfully");
+  successHandler(
+    res,
+    {
+      resources,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      total,
+    },
+    "Resources retrieved successfully"
+  );
 });
 
 // Get Resource by ID
@@ -72,12 +80,23 @@ const getBlogs = catchAsync(async (req, res, next) => {
 
   const total = await Resources.countDocuments({ type: "blog" });
 
-  successHandler(res, {
-    blogs,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
-    total
-  }, "Blogs retrieved successfully");
+  successHandler(
+    res,
+    {
+      blogs,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      total,
+    },
+    "Blogs retrieved successfully"
+  );
+});
+
+const getBlogById = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const blog = await Resources.findById({ type: "blog", _id: id });
+  successHandler(res, blog, "Blog retrieved successfully");
 });
 
 // Get Articles (type === "article")
@@ -91,12 +110,23 @@ const getArticles = catchAsync(async (req, res, next) => {
 
   const total = await Resources.countDocuments({ type: "article" });
 
-  successHandler(res, {
-    articles,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
-    total
-  }, "Articles retrieved successfully");
+  successHandler(
+    res,
+    {
+      articles,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      total,
+    },
+    "Articles retrieved successfully"
+  );
+});
+
+const getArticleById = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const article = await Resources.findById({ type: "article", _id: id });
+  successHandler(res, article, "Article retrieved successfully");
 });
 
 // Get Products (type === "product")
@@ -110,12 +140,23 @@ const getProducts = catchAsync(async (req, res, next) => {
 
   const total = await Resources.countDocuments({ type: "product" });
 
-  successHandler(res, {
-    products,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
-    total
-  }, "Products retrieved successfully");
+  successHandler(
+    res,
+    {
+      products,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      total,
+    },
+    "Products retrieved successfully"
+  );
+});
+
+const getProductById = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const product = await Resources.findById({ type: "product", _id: id });
+  successHandler(res, product, "Product retrieved successfully");
 });
 
 // Update Resource
@@ -123,11 +164,10 @@ const updateResource = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const updateData = req.body;
 
-  const resource = await Resources.findByIdAndUpdate(
-    id,
-    updateData,
-    { new: true, runValidators: true }
-  );
+  const resource = await Resources.findByIdAndUpdate(id, updateData, {
+    new: true,
+    runValidators: true,
+  });
 
   if (!resource) {
     return next(new AppError("Resource not found", 404));
@@ -154,9 +194,11 @@ module.exports = {
   getAllResources,
   getResourceById,
   getBlogs,
+  getBlogById,  
   getArticles,
   getProducts,
-  updateResource,
-  deleteResource
+  getProductById,
+  getArticleById,
+    updateResource,
+  deleteResource,
 };
-
