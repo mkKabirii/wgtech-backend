@@ -18,7 +18,7 @@ const eventSchema = new mongoose.Schema(
         url: { type: String, required: true },
       },
     ],
-
+    eventDate: { type: Date },
     location: { type: String },
     type: {
       type: String,

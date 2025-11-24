@@ -12,7 +12,17 @@ const createEvent = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { title, subTitle, shortDescription, longDescription, image, video, location, type } = validatedData;
+  const {
+    title,
+    subTitle,
+    shortDescription,
+    longDescription,
+    image,
+    video,
+    location,
+    type,
+    eventDate,
+  } = validatedData;
 
   const event = await Events.create({
     title,
@@ -22,7 +32,8 @@ const createEvent = catchAsync(async (req, res, next) => {
     image,
     video,
     location,
-    type
+    type,
+    eventDate,
   });
 
   successHandler(res, event, "Event created successfully", 201);
@@ -31,7 +42,7 @@ const createEvent = catchAsync(async (req, res, next) => {
 // Get All Events
 const getAllEvents = catchAsync(async (req, res, next) => {
   const { page = 1, limit = 10, type } = req.query;
-  
+
   let filter = {};
   if (type) filter.type = type;
 
@@ -42,12 +53,37 @@ const getAllEvents = catchAsync(async (req, res, next) => {
 
   const total = await Events.countDocuments(filter);
 
-  successHandler(res, {
-    events,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
-    total
-  }, "Events retrieved successfully");
+  successHandler(
+    res,
+    {
+      events,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      total,
+    },
+    "Events retrieved successfully"
+  );
+});
+
+// Get All Events Sorted by Type (upcoming_event and archive_event)
+const getAllEventsSorted = catchAsync(async (req, res, next) => {
+  const allEvents = await Events.find().sort({ createdAt: -1 });
+
+  const upcoming_events = allEvents.filter(
+    (event) => event.type === "upcoming_event"
+  );
+  const archive_events = allEvents.filter(
+    (event) => event.type === "archive_event"
+  );
+
+  successHandler(
+    res,
+    {
+      upcoming_event: upcoming_events,
+      archive_event: archive_events,
+    },
+    "Events retrieved and sorted successfully"
+  );
 });
 
 // Get Event by ID
@@ -74,12 +110,16 @@ const getUpcomingEvents = catchAsync(async (req, res, next) => {
 
   const total = await Events.countDocuments({ type: "upcoming_event" });
 
-  successHandler(res, {
-    events,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
-    total
-  }, "Upcoming events retrieved successfully");
+  successHandler(
+    res,
+    {
+      events,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      total,
+    },
+    "Upcoming events retrieved successfully"
+  );
 });
 
 // Get Archive Events (type === "archive_event")
@@ -93,12 +133,16 @@ const getArchiveEvents = catchAsync(async (req, res, next) => {
 
   const total = await Events.countDocuments({ type: "archive_event" });
 
-  successHandler(res, {
-    events,
-    totalPages: Math.ceil(total / limit),
-    currentPage: page,
-    total
-  }, "Archive events retrieved successfully");
+  successHandler(
+    res,
+    {
+      events,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      total,
+    },
+    "Archive events retrieved successfully"
+  );
 });
 
 // Update Event
@@ -106,11 +150,10 @@ const updateEvent = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const updateData = req.body;
 
-  const event = await Events.findByIdAndUpdate(
-    id,
-    updateData,
-    { new: true, runValidators: true }
-  );
+  const event = await Events.findByIdAndUpdate(id, updateData, {
+    new: true,
+    runValidators: true,
+  });
 
   if (!event) {
     return next(new AppError("Event not found", 404));
@@ -135,10 +178,10 @@ const deleteEvent = catchAsync(async (req, res, next) => {
 module.exports = {
   createEvent,
   getAllEvents,
+  getAllEventsSorted,
   getEventById,
   getUpcomingEvents,
   getArchiveEvents,
   updateEvent,
-  deleteEvent
+  deleteEvent,
 };
-

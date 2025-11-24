@@ -7,6 +7,8 @@ const resourcesSchema = new mongoose.Schema(
     shortDescription: { type: String },
     longDescription: { type: String },
     image: { type: String },
+    productImages: { type: [String] },
+    productLink: { type: String },
     type: {
       type: String,
       enum: ["blog", "article", "product"],

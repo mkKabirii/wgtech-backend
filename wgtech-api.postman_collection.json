@@ -1617,6 +1617,123 @@
             }
           }
         ]
+      },
+      {
+        "name": "Applications",
+        "item": [
+          {
+            "name": "Create Application",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"idType\": \"govt_id\",\n  \"address\": {\n    \"streetName\": \"123 Main Street\",\n    \"city\": \"New York\",\n    \"postalCode\": \"10001\"\n  },\n  \"phone\": {\n    \"phoneNumber\": \"+1234567890\",\n    \"landlineNumber\": \"+1234567891\"\n  },\n  \"education\": {\n    \"highSchool\": {\n      \"name\": \"ABC High School\",\n      \"city\": \"New York\"\n    },\n    \"university\": {\n      \"name\": \"XYZ University\",\n      \"city\": \"Boston\"\n    }\n  },\n  \"skills\": [\n    {\n      \"skill\": \"JavaScript\",\n      \"level\": \"advanced\"\n    },\n    {\n      \"skill\": \"React\",\n      \"level\": \"expert\"\n    },\n    {\n      \"skill\": \"Node.js\",\n      \"level\": \"intermediate\"\n    }\n  ],\n  \"cvResume\": \"https://example.com/cv/john-doe-resume.pdf\",\n  \"picture\": \"https://example.com/pictures/john-doe.jpg\",\n  \"certification\": true\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/applications",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "applications"]
+              }
+            }
+          },
+          {
+            "name": "Get All Applications",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/applications",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "applications"],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"},
+                  {"key": "status", "value": "pending", "disabled": true},
+                  {"key": "isActive", "value": "true", "disabled": true},
+                  {"key": "search", "value": "john", "disabled": true}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Applications by Status",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/applications/status/:status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "applications", "status", ":status"],
+                "variable": [{"key": "status", "value": "pending"}],
+                "query": [
+                  {"key": "page", "value": "1"},
+                  {"key": "limit", "value": "10"}
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Application by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/applications/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "applications", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Update Application",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"firstName\": \"Johnathan\",\n  \"lastName\": \"Doe\",\n  \"address\": {\n    \"streetName\": \"456 Updated Street\",\n    \"city\": \"Los Angeles\",\n    \"postalCode\": \"90001\"\n  },\n  \"phone\": {\n    \"phoneNumber\": \"+1987654321\",\n    \"landlineNumber\": \"+1987654322\"\n  },\n  \"skills\": [\n    {\n      \"skill\": \"JavaScript\",\n      \"level\": \"expert\"\n    },\n    {\n      \"skill\": \"React\",\n      \"level\": \"expert\"\n    },\n    {\n      \"skill\": \"Node.js\",\n      \"level\": \"advanced\"\n    },\n    {\n      \"skill\": \"MongoDB\",\n      \"level\": \"intermediate\"\n    }\n  ]\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/applications/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "applications", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Update Application Status",
+            "request": {
+              "method": "PATCH",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"status\": \"approved\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/applications/:id/status",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "applications", ":id", "status"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          },
+          {
+            "name": "Delete Application",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/applications/:id",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "applications", ":id"],
+                "variable": [{"key": "id", "value": ""}]
+              }
+            }
+          }
+        ]
       }
     ],
     "variable": [

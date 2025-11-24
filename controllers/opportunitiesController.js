@@ -45,6 +45,26 @@ const getAllOpportunities = catchAsync(async (req, res, next) => {
   }, "Opportunities retrieved successfully");
 });
 
+
+const getAllOpportunitiesWithoutPagination = catchAsync(async (req, res, next) => {
+  const { status } = req.query;
+
+  let filter = {};
+  if (status) filter.status = status;
+
+  const opportunities = await Opportunities.find(filter).sort({ createdAt: -1 });
+
+  successHandler(
+    res,
+    {
+      opportunities,
+      total: opportunities.length,
+    },
+    "All opportunities retrieved successfully"
+  );
+});
+
+
 // Get Opportunities by ID
 const getOpportunitiesById = catchAsync(async (req, res, next) => {
   const { id } = req.params;
@@ -119,5 +139,6 @@ module.exports = {
   updateOpportunities,
   deleteOpportunities,
   toggleOpportunitiesStatus,
-  getActiveOpportunities
+  getActiveOpportunities,
+  getAllOpportunitiesWithoutPagination  
 };

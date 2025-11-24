@@ -7,7 +7,8 @@ const {
   updateOpportunities,
   deleteOpportunities,
   toggleOpportunitiesStatus,
-  getActiveOpportunities
+  getActiveOpportunities,
+  getAllOpportunitiesWithoutPagination
 } = require("../controllers/opportunitiesController");
 
 const router = express.Router();
@@ -15,6 +16,7 @@ const router = express.Router();
 // Routes
 router.post("/", protect, createOpportunities);
 router.get("/", getAllOpportunities);
+router.get("/all", getAllOpportunitiesWithoutPagination);
 router.get("/active", getActiveOpportunities);
 router.get("/:id", getOpportunitiesById);
 router.put("/:id", protect, updateOpportunities);

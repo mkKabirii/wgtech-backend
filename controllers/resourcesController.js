@@ -15,7 +15,7 @@ const createResource = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { title, subTitle, shortDescription, longDescription, image, type } =
+  const { title, subTitle, shortDescription, longDescription, image, productImages, productLink, type } =
     validatedData;
 
   const resource = await Resources.create({
@@ -24,6 +24,8 @@ const createResource = catchAsync(async (req, res, next) => {
     shortDescription,
     longDescription,
     image,
+    productImages,
+    productLink,
     type,
   });
 

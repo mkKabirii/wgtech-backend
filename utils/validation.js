@@ -13,16 +13,16 @@ const createUserSchema = Joi.object({
   email: Joi.string().email().required(),
   username: Joi.string().required(),
   password: Joi.string().min(6).required(),
-  designation: Joi.string().custom(validateMongoDbId).optional()
+  designation: Joi.string().custom(validateMongoDbId).optional(),
 });
 
 const updateUserSchema = Joi.object({
   email: Joi.string().email().optional(),
   username: Joi.string().optional(),
   password: Joi.string().min(6).optional(),
-  role: Joi.string().valid('user', 'admin', 'superadmin').optional(),
+  role: Joi.string().valid("user", "admin", "superadmin").optional(),
   designation: Joi.string().custom(validateMongoDbId).optional(),
-  isActive: Joi.boolean().optional()
+  isActive: Joi.boolean().optional(),
 });
 
 // Service validation schemas
@@ -30,14 +30,14 @@ const createServiceSchema = Joi.object({
   title: Joi.string().required(),
   description: Joi.string().required(),
   image: Joi.string().required(),
-  status: Joi.string().valid('Active', 'Inactive').default('Active')
+  status: Joi.string().valid("Active", "Inactive").default("Active"),
 });
 
 const updateServiceSchema = Joi.object({
   title: Joi.string().optional(),
   description: Joi.string().optional(),
   image: Joi.string().optional(),
-  status: Joi.string().valid('Active', 'Inactive').optional()
+  status: Joi.string().valid("Active", "Inactive").optional(),
 });
 
 // SubService validation schemas
@@ -46,7 +46,7 @@ const createSubServiceSchema = Joi.object({
   title: Joi.string().required(),
   description: Joi.string().required(),
   serviceId: Joi.string().custom(validateMongoDbId).required(),
-  status: Joi.string().valid('Active', 'Inactive').default('Active')
+  status: Joi.string().valid("Active", "Inactive").default("Active"),
 });
 
 const updateSubServiceSchema = Joi.object({
@@ -54,7 +54,7 @@ const updateSubServiceSchema = Joi.object({
   title: Joi.string().optional(),
   description: Joi.string().optional(),
   serviceId: Joi.string().custom(validateMongoDbId).optional(),
-  status: Joi.string().valid('Active', 'Inactive').optional()
+  status: Joi.string().valid("Active", "Inactive").optional(),
 });
 
 // UserRole validation schemas
@@ -65,91 +65,96 @@ const routeShape = Joi.object({
   permissions: Joi.array()
     .items(Joi.object().unknown(true))
     .optional()
-    .default([])
+    .default([]),
 });
 
 const createUserRoleSchema = Joi.object({
   roleName: Joi.string().required(),
   routes: Joi.array().items(routeShape).optional(),
-  status: Joi.boolean().optional()
+  status: Joi.boolean().optional(),
 });
 
 const updateUserRoleSchema = Joi.object({
   roleName: Joi.string().optional(),
   routes: Joi.array().items(routeShape).optional(),
   status: Joi.boolean().optional(),
-  totalRoutes: Joi.number().optional()
+  totalRoutes: Joi.number().optional(),
 });
 
 // AboutUs validation schemas
 const createAboutUsSchema = Joi.object({
   description: Joi.string().required(),
-  image: Joi.string().required()
+  image: Joi.string().required(),
 });
 
 const updateAboutUsSchema = Joi.object({
   description: Joi.string().optional(),
-  image: Joi.string().optional()
+  image: Joi.string().optional(),
 });
 
 // Advertisement validation schemas
 const createAdvertisementSchema = Joi.object({
   title: Joi.string().required(),
   image: Joi.string().required(),
-  status: Joi.string().valid('Active', 'Inactive').default('Active')
+  status: Joi.string().valid("Active", "Inactive").default("Active"),
 });
 
 const updateAdvertisementSchema = Joi.object({
   title: Joi.string().optional(),
   image: Joi.string().optional(),
-  status: Joi.string().valid('Active', 'Inactive').optional()
+  status: Joi.string().valid("Active", "Inactive").optional(),
 });
 
 // FAQ validation schemas
 const createFAQSchema = Joi.object({
   title: Joi.string().required(),
-  body: Joi.string().required()
+  body: Joi.string().required(),
 });
 
 const updateFAQSchema = Joi.object({
   title: Joi.string().optional(),
-  body: Joi.string().optional()
+  body: Joi.string().optional(),
 });
 
 // Opportunities validation schemas
 const createOpportunitiesSchema = Joi.object({
   name: Joi.string().required(),
-  opportunity: Joi.array().items(
-    Joi.object({
-      title: Joi.string().required(),
-      description: Joi.string().required(),
-      image: Joi.string().required()
-    })
-  ).min(1).required(),
-  status: Joi.string().valid('Active', 'Inactive').default('Active')
+  opportunity: Joi.array()
+    .items(
+      Joi.object({
+        title: Joi.string().required(),
+        description: Joi.string().required(),
+        image: Joi.string().required(),
+      })
+    )
+    .min(1)
+    .required(),
+  status: Joi.string().valid("Active", "Inactive").default("Active"),
 });
 
 const updateOpportunitiesSchema = Joi.object({
   name: Joi.string().optional(),
-  opportunity: Joi.array().items(
-    Joi.object({
-      title: Joi.string().required(),
-      description: Joi.string().required(),
-      image: Joi.string().required()
-    })
-  ).optional(),
-  status: Joi.string().valid('Active', 'Inactive').optional()
+  opportunity: Joi.array()
+    .items(
+      Joi.object({
+        title: Joi.string().required(),
+        description: Joi.string().required(),
+        image: Joi.string().required(),
+      })
+    )
+    .optional(),
+  status: Joi.string().valid("Active", "Inactive").optional(),
 });
 
 // OurStory validation schemas
 const createOurStorySchema = Joi.object({
   title: Joi.string().required(),
-  description: Joi.string().required()
+  description: Joi.string().required(),
 });
 
 const updateOurStorySchema = Joi.object({
   title: Joi.string().optional(),
-  description: Joi.string().optional()
+  description: Joi.string().optional(),
 });
 
 // Work validation schemas
@@ -157,32 +162,41 @@ const createWorkSchema = Joi.object({
   workCategory: Joi.string().required(),
   categoryDescription: Joi.string().required(),
   serviceId: Joi.string().custom(validateMongoDbId).required(),
-  subServiceIds: Joi.array().items(Joi.string().custom(validateMongoDbId)).optional(),
-  works: Joi.array().items(
-    Joi.object({
-      image: Joi.array().items(Joi.string()).required(),
-      title: Joi.string().required(),
-      url: Joi.string().required(),
-      description: Joi.string().required()
-    })
-  ).min(1).required(),
-  status: Joi.string().valid('active', 'inactive').default('active')
+  subServiceIds: Joi.array()
+    .items(Joi.string().custom(validateMongoDbId))
+    .optional(),
+  works: Joi.array()
+    .items(
+      Joi.object({
+        image: Joi.array().items(Joi.string()).required(),
+        title: Joi.string().required(),
+        url: Joi.string().required(),
+        description: Joi.string().required(),
+      })
+    )
+    .min(1)
+    .required(),
+  status: Joi.string().valid("active", "inactive").default("active"),
 });
 
 const updateWorkSchema = Joi.object({
   workCategory: Joi.string().optional(),
   categoryDescription: Joi.string().optional(),
   serviceId: Joi.string().custom(validateMongoDbId).optional(),
-  subServiceIds: Joi.array().items(Joi.string().custom(validateMongoDbId)).optional(),
-  works: Joi.array().items(
-    Joi.object({
-      image: Joi.string().required(),
-      title: Joi.string().required(),
-      url: Joi.string().required(),
-      description: Joi.string().required()
-    })
-  ).optional(),
-  status: Joi.string().valid('active', 'inactive').optional()
+  subServiceIds: Joi.array()
+    .items(Joi.string().custom(validateMongoDbId))
+    .optional(),
+  works: Joi.array()
+    .items(
+      Joi.object({
+        image: Joi.string().required(),
+        title: Joi.string().required(),
+        url: Joi.string().required(),
+        description: Joi.string().required(),
+      })
+    )
+    .optional(),
+  status: Joi.string().valid("active", "inactive").optional(),
 });
 
 // TeamMember validation schemas
@@ -191,12 +205,14 @@ const createTeamMemberSchema = Joi.object({
   name: Joi.string().required(),
   shortDescription: Joi.string().required(),
   image: Joi.string().required(),
-  url: Joi.array().items(
-    Joi.object({
-      siteName: Joi.string().required(),
-      link: Joi.string().required()
-    })
-  ).optional()
+  url: Joi.array()
+    .items(
+      Joi.object({
+        siteName: Joi.string().required(),
+        link: Joi.string().required(),
+      })
+    )
+    .optional(),
 });
 
 const updateTeamMemberSchema = Joi.object({
@@ -204,23 +220,25 @@ const updateTeamMemberSchema = Joi.object({
   name: Joi.string().optional(),
   shortDescription: Joi.string().optional(),
   image: Joi.string().optional(),
-  url: Joi.array().items(
-    Joi.object({
-      siteName: Joi.string().required(),
-      link: Joi.string().required()
-    })
-  ).optional()
+  url: Joi.array()
+    .items(
+      Joi.object({
+        siteName: Joi.string().required(),
+        link: Joi.string().required(),
+      })
+    )
+    .optional(),
 });
 
 // TeamRole validation schemas
 const createTeamRoleSchema = Joi.object({
   role: Joi.string().required(),
-  description: Joi.string().required()
+  description: Joi.string().required(),
 });
 
 const updateTeamRoleSchema = Joi.object({
   role: Joi.string().optional(),
-  description: Joi.string().optional()
+  description: Joi.string().optional(),
 });
 
 // Review validation schemas
@@ -228,11 +246,11 @@ const createReviewSchema = Joi.object({
   userInfo: Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
-    image: Joi.string().required()
+    image: Joi.string().required(),
   }).required(),
   rating: Joi.number().min(1).max(5).required(),
   review: Joi.string().required(),
-  status: Joi.string().valid('active', 'inactive').default('active')
+  status: Joi.string().valid("active", "inactive").default("active"),
 });
 
 // Resources validation schemas
@@ -242,7 +260,9 @@ const createResourceSchema = Joi.object({
   shortDescription: Joi.string().optional(),
   longDescription: Joi.string().optional(),
   image: Joi.string().optional(),
-  type: Joi.string().valid('blog', 'article', 'product').required()
+  productImages: Joi.array().items(Joi.string()).optional(),
+  productLink: Joi.string().optional(),
+  type: Joi.string().valid("blog", "article", "product").required(),
 });
 
 const updateResourceSchema = Joi.object({
@@ -251,7 +271,9 @@ const updateResourceSchema = Joi.object({
   shortDescription: Joi.string().optional(),
   longDescription: Joi.string().optional(),
   image: Joi.string().optional(),
-  type: Joi.string().valid('blog', 'article', 'product').optional()
+  productImages: Joi.array().items(Joi.string()).optional(),
+  productLink: Joi.string().optional(),
+  type: Joi.string().valid("blog", "article", "product").optional(),
 });
 
 // Events validation schemas
@@ -260,20 +282,25 @@ const createEventSchema = Joi.object({
   subTitle: Joi.string().optional(),
   shortDescription: Joi.string().optional(),
   longDescription: Joi.string().optional(),
-  image: Joi.array().items(
-    Joi.object({
-      name: Joi.string().required(),
-      url: Joi.string().required()
-    })
-  ).optional(),
-  video: Joi.array().items(
-    Joi.object({
-      name: Joi.string().required(),
-      url: Joi.string().required()
-    })
-  ).optional(),
+  image: Joi.array()
+    .items(
+      Joi.object({
+        name: Joi.string().required(),
+        url: Joi.string().required(),
+      })
+    )
+    .optional(),
+  eventDate: Joi.date().optional(),
+  video: Joi.array()
+    .items(
+      Joi.object({
+        name: Joi.string().required(),
+        url: Joi.string().required(),
+      })
+    )
+    .optional(),
   location: Joi.string().optional(),
-  type: Joi.string().valid('upcoming_event', 'archive_event').required()
+  type: Joi.string().valid("upcoming_event", "archive_event").required(),
 });
 
 // Proposal validation schemas
@@ -336,9 +363,96 @@ const updatePhaseSchema = Joi.object({
   images: Joi.array().items(Joi.string()).optional(),
 });
 
+// Applications validation schemas
+const createApplicationSchema = Joi.object({
+  firstName: Joi.string().min(2).max(50).required(),
+  lastName: Joi.string().min(2).max(50).required(),
+  idType: Joi.string().valid("govt_id", "passport").required(),
+  address: Joi.object({
+    streetName: Joi.string().allow(null, "").optional(),
+    city: Joi.string().allow(null, "").optional(),
+    postalCode: Joi.string().allow(null, "").optional(),
+  }).optional(),
+  phone: Joi.object({
+    phoneNumber: Joi.string().allow(null, "").optional(),
+    landlineNumber: Joi.string().allow(null, "").optional(),
+  }).optional(),
+  education: Joi.object({
+    highSchool: Joi.object({
+      name: Joi.string().allow(null, "").optional(),
+      city: Joi.string().allow(null, "").optional(),
+    }).optional(),
+    university: Joi.object({
+      name: Joi.string().allow(null, "").optional(),
+      city: Joi.string().allow(null, "").optional(),
+    }).optional(),
+  }).optional(),
+  skills: Joi.array()
+    .items(
+      Joi.object({
+        skill: Joi.string().required(),
+        level: Joi.string()
+          .valid("beginner", "intermediate", "advanced", "expert")
+          .required(),
+      })
+    )
+    .optional(),
+  cvResume: Joi.string().allow(null, "").optional(),
+  picture: Joi.string().allow(null, "").optional(),
+  certification: Joi.boolean().default(false),
+});
+
+const updateApplicationSchema = Joi.object({
+  firstName: Joi.string().min(2).max(50).optional(),
+  lastName: Joi.string().min(2).max(50).optional(),
+  idType: Joi.string().valid("govt_id", "passport").optional(),
+  address: Joi.object({
+    streetName: Joi.string().allow(null, "").optional(),
+    city: Joi.string().allow(null, "").optional(),
+    postalCode: Joi.string().allow(null, "").optional(),
+  }).optional(),
+  phone: Joi.object({
+    phoneNumber: Joi.string().allow(null, "").optional(),
+    landlineNumber: Joi.string().allow(null, "").optional(),
+  }).optional(),
+  education: Joi.object({
+    highSchool: Joi.object({
+      name: Joi.string().allow(null, "").optional(),
+      city: Joi.string().allow(null, "").optional(),
+    }).optional(),
+    university: Joi.object({
+      name: Joi.string().allow(null, "").optional(),
+      city: Joi.string().allow(null, "").optional(),
+    }).optional(),
+  }).optional(),
+  skills: Joi.array()
+    .items(
+      Joi.object({
+        skill: Joi.string().optional(),
+        level: Joi.string()
+          .valid("beginner", "intermediate", "advanced", "expert")
+          .optional(),
+      })
+    )
+    .optional(),
+  cvResume: Joi.string().allow(null, "").optional(),
+  picture: Joi.string().allow(null, "").optional(),
+  certification: Joi.boolean().optional(),
+  status: Joi.string()
+    .valid("pending", "approved", "rejected")
+    .optional(),
+  isActive: Joi.boolean().optional(),
+});
+
+const updateApplicationStatusSchema = Joi.object({
+  status: Joi.string()
+    .valid("pending", "approved", "rejected")
+    .required(),
+});
+
 // Common validation for MongoDB ObjectId
 const mongoIdSchema = Joi.object({
-  id: Joi.string().custom(validateMongoDbId).required()
+  id: Joi.string().custom(validateMongoDbId).required(),
 });
 
 module.exports = {
@@ -393,6 +507,10 @@ module.exports = {
   // Phase schemas
   createPhaseSchema,
   updatePhaseSchema,
+  // Applications schemas
+  createApplicationSchema,
+  updateApplicationSchema,
+  updateApplicationStatusSchema,
   // Common schemas
-  mongoIdSchema
+  mongoIdSchema,
 };
