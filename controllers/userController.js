@@ -15,7 +15,7 @@ const createUser = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { email, username, password, role, designation } = validatedData;
+  const { email, username, password, role, designation, profileImage } = validatedData;
 
   // Check if user already exists
   const existingUser = await User.findOne({ email });

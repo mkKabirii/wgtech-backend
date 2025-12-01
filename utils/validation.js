@@ -14,6 +14,7 @@ const createUserSchema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().min(6).required(),
   designation: Joi.string().custom(validateMongoDbId).optional(),
+  profileImage: Joi.string().optional(),
 });
 
 const updateUserSchema = Joi.object({
@@ -23,6 +24,7 @@ const updateUserSchema = Joi.object({
   role: Joi.string().valid("user", "admin", "superadmin").optional(),
   designation: Joi.string().custom(validateMongoDbId).optional(),
   isActive: Joi.boolean().optional(),
+  profileImage: Joi.string().optional(),
 });
 
 // Service validation schemas
@@ -368,6 +370,8 @@ const createApplicationSchema = Joi.object({
   firstName: Joi.string().min(2).max(50).required(),
   lastName: Joi.string().min(2).max(50).required(),
   idType: Joi.string().valid("govt_id", "passport").required(),
+  idNumber: Joi.string().required(),
+  dateOfBirth: Joi.date().optional(),
   address: Joi.object({
     streetName: Joi.string().allow(null, "").optional(),
     city: Joi.string().allow(null, "").optional(),
@@ -406,6 +410,8 @@ const updateApplicationSchema = Joi.object({
   firstName: Joi.string().min(2).max(50).optional(),
   lastName: Joi.string().min(2).max(50).optional(),
   idType: Joi.string().valid("govt_id", "passport").optional(),
+  idNumber: Joi.string().optional(),
+  dateOfBirth: Joi.date().optional(),
   address: Joi.object({
     streetName: Joi.string().allow(null, "").optional(),
     city: Joi.string().allow(null, "").optional(),
@@ -453,6 +459,19 @@ const updateApplicationStatusSchema = Joi.object({
 // Common validation for MongoDB ObjectId
 const mongoIdSchema = Joi.object({
   id: Joi.string().custom(validateMongoDbId).required(),
+});
+
+// Dashboard date range validation schema
+const dashboardDateRangeSchema = Joi.object({
+  startDate: Joi.date().iso().optional(),
+  endDate: Joi.date().iso().min(Joi.ref("startDate")).optional(),
+}).custom((value, helpers) => {
+  if (value.startDate && value.endDate) {
+    if (new Date(value.endDate) < new Date(value.startDate)) {
+      return helpers.message("endDate must be greater than or equal to startDate");
+    }
+  }
+  return value;
 });
 
 module.exports = {
@@ -511,6 +530,8 @@ module.exports = {
   createApplicationSchema,
   updateApplicationSchema,
   updateApplicationStatusSchema,
+  // Dashboard schemas
+  dashboardDateRangeSchema,
   // Common schemas
   mongoIdSchema,
 };

@@ -18,6 +18,16 @@ const applicationsSchema = new mongoose.Schema(
       enum: ["govt_id", "passport"],
       required: true,
     },
+    idNumber: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    dateOfBirth: {
+      type: Date,
+      required: false,
+      default: null,
+    },
     address: {
       streetName: {
         type: String,
@@ -107,4 +117,3 @@ const applicationsSchema = new mongoose.Schema(
 
 mongoose.model("Applications", applicationsSchema).createCollection();
 module.exports = mongoose.model("Applications", applicationsSchema);
-
