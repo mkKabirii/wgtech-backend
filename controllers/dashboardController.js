@@ -66,26 +66,7 @@ const getDashboardAnalytics = catchAsync(async (req, res, next) => {
     count: budgetChartData[budget],
   }));
 
-  // 2. Time-based proposal data (daily breakdown)
-  const allProposals = await Proposal.find({
-    ...dateFilter,
-    isActive: true,
-  }).sort({ createdAt: 1 });
-
-  const proposalsByDate = {};
-  allProposals.forEach((proposal) => {
-    const dateKey = proposal.createdAt.toISOString().split("T")[0]; // YYYY-MM-DD format
-    proposalsByDate[dateKey] = (proposalsByDate[dateKey] || 0) + 1;
-  });
-
-  const proposalsOverTime = Object.keys(proposalsByDate)
-    .sort()
-    .map((date) => ({
-      date,
-      count: proposalsByDate[date],
-    }));
-
-  // Helper function to parse budget and get numeric value for sorting
+  // Helper function to parse budget and get numeric value
   const parseBudgetValue = (budget) => {
     if (!budget || budget === "" || budget === "Not Specified") {
       return 0;
@@ -116,6 +97,38 @@ const getDashboardAnalytics = catchAsync(async (req, res, next) => {
     
     return 0;
   };
+
+  // 2. Time-based proposal data (daily breakdown) with count and total budget
+  const allProposals = await Proposal.find({
+    ...dateFilter,
+    isActive: true,
+  }).sort({ createdAt: 1 });
+
+  const proposalsByDate = {};
+  allProposals.forEach((proposal) => {
+    const dateKey = proposal.createdAt.toISOString().split("T")[0]; // YYYY-MM-DD format
+    
+    if (!proposalsByDate[dateKey]) {
+      proposalsByDate[dateKey] = {
+        count: 0,
+        totalBudget: 0,
+      };
+    }
+    
+    proposalsByDate[dateKey].count += 1;
+    
+    // Add budget value to total
+    const budgetValue = parseBudgetValue(proposal.budget);
+    proposalsByDate[dateKey].totalBudget += budgetValue;
+  });
+
+  const proposalsOverTime = Object.keys(proposalsByDate)
+    .sort()
+    .map((date) => ({
+      date,
+      count: proposalsByDate[date].count,
+      totalBudget: proposalsByDate[date].totalBudget,
+    }));
 
   // 3. Top 5 proposals according to budget
   const allProposalsForTop = await Proposal.find({
