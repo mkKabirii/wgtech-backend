@@ -12,11 +12,11 @@ const createTeamRole = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { role, description } = validatedData;
+  const { role } = validatedData;
 
   const teamRole = await TeamRole.create({
     role,
-    description
+
   });
 
   successHandler(res, teamRole, "Team role created successfully", 201);

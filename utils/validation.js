@@ -96,15 +96,21 @@ const updateAboutUsSchema = Joi.object({
 
 // Advertisement validation schemas
 const createAdvertisementSchema = Joi.object({
-  title: Joi.string().required(),
   image: Joi.string().required(),
   status: Joi.string().valid("Active", "Inactive").default("Active"),
 });
 
 const updateAdvertisementSchema = Joi.object({
-  title: Joi.string().optional(),
   image: Joi.string().optional(),
   status: Joi.string().valid("Active", "Inactive").optional(),
+});
+
+const updateAdvertisementTitleSchema = Joi.object({
+  title: Joi.string().required(),
+});
+
+const createAdvertisementTitleSchema = Joi.object({
+  title: Joi.string().required(),
 });
 
 // FAQ validation schemas
@@ -160,10 +166,10 @@ const updateOurStorySchema = Joi.object({
 });
 
 // Work validation schemas
-const createWorkSchema = Joi.object({
+const   createWorkSchema = Joi.object({
   workCategory: Joi.string().required(),
   categoryDescription: Joi.string().required(),
-  serviceId: Joi.string().custom(validateMongoDbId).required(),
+  serviceId: Joi.string().custom(validateMongoDbId).optional(),
   subServiceIds: Joi.array()
     .items(Joi.string().custom(validateMongoDbId))
     .optional(),
@@ -174,6 +180,7 @@ const createWorkSchema = Joi.object({
         title: Joi.string().required(),
         url: Joi.string().required(),
         description: Joi.string().required(),
+        purpose: Joi.string().required(),
       })
     )
     .min(1)
@@ -235,12 +242,10 @@ const updateTeamMemberSchema = Joi.object({
 // TeamRole validation schemas
 const createTeamRoleSchema = Joi.object({
   role: Joi.string().required(),
-  description: Joi.string().required(),
 });
 
 const updateTeamRoleSchema = Joi.object({
   role: Joi.string().optional(),
-  description: Joi.string().optional(),
 });
 
 // Review validation schemas
@@ -265,6 +270,7 @@ const createResourceSchema = Joi.object({
   productImages: Joi.array().items(Joi.string()).optional(),
   productLink: Joi.string().optional(),
   type: Joi.string().valid("blog", "article", "product").required(),
+  postedOn: Joi.date().optional(),
 });
 
 const updateResourceSchema = Joi.object({
@@ -276,6 +282,7 @@ const updateResourceSchema = Joi.object({
   productImages: Joi.array().items(Joi.string()).optional(),
   productLink: Joi.string().optional(),
   type: Joi.string().valid("blog", "article", "product").optional(),
+  postedOn: Joi.date().optional(),
 });
 
 // Events validation schemas
@@ -369,6 +376,7 @@ const updatePhaseSchema = Joi.object({
 const createApplicationSchema = Joi.object({
   firstName: Joi.string().min(2).max(50).required(),
   lastName: Joi.string().min(2).max(50).required(),
+  email: Joi.string().email().required(),
   idType: Joi.string().valid("govt_id", "passport").required(),
   idNumber: Joi.string().required(),
   dateOfBirth: Joi.date().optional(),
@@ -409,6 +417,7 @@ const createApplicationSchema = Joi.object({
 const updateApplicationSchema = Joi.object({
   firstName: Joi.string().min(2).max(50).optional(),
   lastName: Joi.string().min(2).max(50).optional(),
+  email: Joi.string().email().optional(),
   idType: Joi.string().valid("govt_id", "passport").optional(),
   idNumber: Joi.string().optional(),
   dateOfBirth: Joi.date().optional(),
@@ -474,6 +483,17 @@ const dashboardDateRangeSchema = Joi.object({
   return value;
 });
 
+// Settings validation schemas
+const createSettingsSchema = Joi.object({
+  privacyPolicy: Joi.string().required(),
+  termsCondition: Joi.string().required(),
+});
+
+const updateSettingsSchema = Joi.object({
+  privacyPolicy: Joi.string().optional(),
+  termsCondition: Joi.string().optional(),
+});
+
 module.exports = {
   validateMongoDbId,
   // User schemas
@@ -494,6 +514,8 @@ module.exports = {
   // Advertisement schemas
   createAdvertisementSchema,
   updateAdvertisementSchema,
+  updateAdvertisementTitleSchema,
+  createAdvertisementTitleSchema,
   // FAQ schemas
   createFAQSchema,
   updateFAQSchema,
@@ -532,6 +554,9 @@ module.exports = {
   updateApplicationStatusSchema,
   // Dashboard schemas
   dashboardDateRangeSchema,
+  // Settings validation schemas
+  createSettingsSchema,
+  updateSettingsSchema,
   // Common schemas
   mongoIdSchema,
 };

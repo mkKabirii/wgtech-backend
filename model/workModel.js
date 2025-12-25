@@ -14,12 +14,13 @@ const workSchema = new mongoose.Schema(
     serviceId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Service",
-      required: true,
+      default: null,
     },
     subServiceIds: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "SubService",
+        default: null,
       },
     ],
     works: [
@@ -41,6 +42,10 @@ const workSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        purpose:{
+          type: String,
+          required: true,
+        }
       },
     ],
     status: {

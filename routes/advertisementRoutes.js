@@ -7,7 +7,10 @@ const {
   updateAdvertisement,
   deleteAdvertisement,
   toggleAdvertisementStatus,
-  getActiveAdvertisements
+  getActiveAdvertisements,
+  updateAdvertisementTitle,
+  createAdvertisementTitle,
+  getAdvertisementTitle
 } = require("../controllers/advertisementController");
 
 const router = express.Router();
@@ -20,5 +23,8 @@ router.get("/:id", getAdvertisementById);
 router.put("/:id", protect, updateAdvertisement);
 router.delete("/:id", protect, deleteAdvertisement);
 router.patch("/:id/toggle-status", protect, toggleAdvertisementStatus);
+router.patch("/:id/title", protect, updateAdvertisementTitle);
+router.post("/title", protect, createAdvertisementTitle);
+router.get("/title", getAdvertisementTitle);
 
 module.exports = router;

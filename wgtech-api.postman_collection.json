@@ -1734,6 +1734,55 @@
             }
           }
         ]
+      },
+      {
+        "name": "Settings",
+        "item": [
+          {
+            "name": "Create Settings",
+            "request": {
+              "method": "POST",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"privacyPolicy\": \"This is the privacy policy content. It outlines how we collect, use, and protect your personal information.\",\n  \"termsCondition\": \"This is the terms and conditions content. It outlines the rules and regulations for using our services.\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/settings",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "settings"]
+              }
+            }
+          },
+          {
+            "name": "Get Settings",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/settings",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "settings"]
+              }
+            }
+          },
+          {
+            "name": "Update Settings",
+            "request": {
+              "method": "PUT",
+              "header": [{"key": "Content-Type", "value": "application/json"}],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"privacyPolicy\": \"Updated privacy policy content.\",\n  \"termsCondition\": \"Updated terms and conditions content.\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/api/v1/settings",
+                "host": ["{{baseUrl}}"],
+                "path": ["api", "v1", "settings"]
+              }
+            }
+          }
+        ]
       }
     ],
     "variable": [

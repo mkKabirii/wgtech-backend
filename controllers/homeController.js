@@ -1,6 +1,7 @@
 const Service = require("../model/serviceModel");
 const Review = require("../model/reviewsModel");
 const FAQ = require("../model/faqModel");
+const Advertisement = require("../model/advertisementModel");
 const { successHandler } = require("../utils/helper");
 const catchAsync = require("../utils/catchAsync");
 
@@ -19,10 +20,16 @@ const getHomeData = catchAsync(async (req, res, next) => {
   const faqs = await FAQ.find()
     .sort({ createdAt: -1 });
 
+  // Get active advertisements with images
+  const advertisements = await Advertisement.find({ status: "Active" })
+    .select("image")
+    .sort({ createdAt: -1 });
+
   successHandler(res, {
     services,
     reviews,
-    faqs
+    faqs,
+    advertisements
   }, "Home data retrieved successfully");
 });
 

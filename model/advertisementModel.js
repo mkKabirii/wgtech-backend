@@ -4,7 +4,7 @@ const advertisementSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      default: "",
     },
     image: {
       type: String,

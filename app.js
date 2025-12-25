@@ -33,6 +33,7 @@ const phaseRoutes = require("./routes/phaseRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const applicationsRoutes = require("./routes/applicationsRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const settingsRoutes = require("./routes/settingsRoutes");
 
 const app = express();
 
@@ -83,6 +84,7 @@ app.use("/api/v1/phases", phaseRoutes);
 app.use("/api/v1/home", homeRoutes);
 app.use("/api/v1/applications", applicationsRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
+app.use("/api/v1/settings", settingsRoutes);
 
 // Handle unhandled routes
 app.all("*", (req, res, next) => {

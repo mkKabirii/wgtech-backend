@@ -13,6 +13,11 @@ const applicationsSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     idType: {
       type: String,
       enum: ["govt_id", "passport"],

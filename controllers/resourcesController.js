@@ -15,8 +15,17 @@ const createResource = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { title, subTitle, shortDescription, longDescription, image, productImages, productLink, type } =
-    validatedData;
+  const {
+    title,
+    subTitle,
+    shortDescription,
+    longDescription,
+    image,
+    productImages,
+    productLink,
+    type,
+    postedOn,
+  } = validatedData;
 
   const resource = await Resources.create({
     title,
@@ -27,6 +36,7 @@ const createResource = catchAsync(async (req, res, next) => {
     productImages,
     productLink,
     type,
+    postedOn,
   });
 
   successHandler(res, resource, "Resource created successfully", 201);
@@ -196,11 +206,11 @@ module.exports = {
   getAllResources,
   getResourceById,
   getBlogs,
-  getBlogById,  
+  getBlogById,
   getArticles,
   getProducts,
   getProductById,
   getArticleById,
-    updateResource,
+  updateResource,
   deleteResource,
 };

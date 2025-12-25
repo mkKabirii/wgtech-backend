@@ -9,6 +9,7 @@ const resourcesSchema = new mongoose.Schema(
     image: { type: String },
     productImages: { type: [String] },
     productLink: { type: String },
+    postedOn: { type: Date, default: Date.now },
     type: {
       type: String,
       enum: ["blog", "article", "product"],

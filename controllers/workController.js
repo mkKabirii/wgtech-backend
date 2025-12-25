@@ -12,13 +12,11 @@ const createWork = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { workCategory, categoryDescription, serviceId, subServiceIds, works, status } = validatedData;
+  const { workCategory, categoryDescription, serviceId, subServiceIds, works, status  } = validatedData;
 
   const work = await Work.create({
     workCategory,
     categoryDescription,
-    serviceId,
-    subServiceIds,
     works,
     status
   });
