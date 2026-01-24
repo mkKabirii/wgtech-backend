@@ -29,9 +29,11 @@ const getAllPhases = catchAsync(async (req, res) => {
   }
 
   const phases = await Phase.find(filter)
+    .populate("proposalId", "proposalId fullname email") 
     .limit(Number(limit))
     .skip((Number(page) - 1) * Number(limit))
     .sort({ createdAt: -1 });
+
 
   const total = await Phase.countDocuments(filter);
 
@@ -102,7 +104,7 @@ const deletePhase = catchAsync(async (req, res, next) => {
 
 const getPhaseByProposalId = catchAsync(async (req, res, next) => {
   const { proposalId } = req.params;
-  const phases = await Phase.find({ proposalId });
+  const phases = await Phase.find({ proposalId }).populate("proposalId", "proposalId");
   if (!phases) {
     return next(new AppError("Phases not found", 404));
   }
