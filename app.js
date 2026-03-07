@@ -11,7 +11,9 @@ const path = require("path");
 const errorMiddleware = require("./middleware/errorMiddleware");
 const AppError = require("./utils/appError");
 
-// Routes
+
+// ✅ SIRF EK BAAR — top mein
+const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const subServiceRoutes = require("./routes/subServiceRoutes");
@@ -63,6 +65,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Routes
+app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/services", serviceRoutes);
 app.use("/api/v1/subservices", subServiceRoutes);
@@ -85,6 +88,8 @@ app.use("/api/v1/home", homeRoutes);
 app.use("/api/v1/applications", applicationsRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/settings", settingsRoutes);
+
+
 
 // Handle unhandled routes
 app.all("*", (req, res, next) => {

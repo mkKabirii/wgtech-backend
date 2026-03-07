@@ -1,5 +1,4 @@
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const proposalSchema = new Schema(
@@ -27,6 +26,15 @@ const proposalSchema = new Schema(
       trim: true,
       default: null,
     },
+    // Existing fields ke saath yeh add karo:
+    nationalId: {
+      type: String,
+      default: null,
+    },
+    document: {
+      type: String, // file ka URL/path save hoga
+      default: null,
+    },
     company: {
       type: String,
       trim: true,
@@ -45,7 +53,7 @@ const proposalSchema = new Schema(
     budget: {
       type: String,
       default: null,
-    },  
+    },
     messages: {
       type: String,
       default: null,
@@ -59,16 +67,16 @@ const proposalSchema = new Schema(
       type: Boolean,
       default: true,
     },
-
   },
-    {
+  {
     timestamps: true,
     collection: "proposals", // collection ka naam
-  }
+  },
 );
 
 // Ensure collection is created
 mongoose.model("Proposal", proposalSchema).createCollection();
 
-const Proposal = mongoose.models.Proposal || mongoose.model('Proposal', proposalSchema);
+const Proposal =
+  mongoose.models.Proposal || mongoose.model("Proposal", proposalSchema);
 module.exports = Proposal;

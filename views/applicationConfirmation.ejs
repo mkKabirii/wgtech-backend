@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; }
+    .container { max-width: 600px; margin: 40px auto; background: white; border-radius: 10px; overflow: hidden; }
+    .header { background: #9EFF00; padding: 30px; text-align: center; }
+    .header h1 { color: #000; margin: 0; font-size: 24px; }
+    .body { padding: 30px; color: #333; }
+    .info-box { background: #f9f9f9; border-left: 4px solid #9EFF00; padding: 15px; margin: 20px 0; border-radius: 4px; }
+    .footer { background: #111; color: #888; padding: 20px; text-align: center; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>WG Tech Solutions</h1>
+    </div>
+    <div class="body">
+      <h2>Application Received, <%= fullname %>! 🎉</h2>
+      <p>Thank you for applying at WG Tech Solutions. We have received your application and will review it shortly.</p>
+
+      <div class="info-box">
+        <p><strong>📋 Position:</strong> <%= position %></p>
+        <p><strong>📧 Email:</strong> <%= email %></p>
+        <p><strong>📊 Status:</strong> Under Review</p>
+      </div>
+
+      <p>Our HR team will contact you within 3-5 business days.</p>
+      <p>Best regards,<br><strong>WG Tech Solutions HR Team</strong></p>
+    </div>
+    <div class="footer">
+      <p>© 2024 WG Tech Solutions. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -13,6 +13,7 @@ class EmailService {
 
     this.to = userEmail;
     this.from = EMAIL_USER || "no-reply@replyce.com";
+    // this.from = options?.senderEmail || EMAIL_USER || "no-reply@replyce.com";
 
     // SMTP Transporter Setup for Gmail
     this.transporter = nodemailer.createTransport({
@@ -43,7 +44,7 @@ class EmailService {
   /**
    * Send email with optional HTML template & attachments
    */
-  async send({ subject, message, template, templateData, attachments }) {
+  async send({ subject, message, template, templateData, attachments, senderEmail }) {
     let htmlContent = message;
 
     try {
@@ -55,7 +56,8 @@ class EmailService {
       }
 
       const mailOptions = {
-        from: `Certano <${this.from}>`,
+        // from: `Certano <${this.from}>`,
+        from: `WG Tech Solutions <${senderEmail || this.from}>`,
         to: this.to,
         subject: subject,
         text: message || "",

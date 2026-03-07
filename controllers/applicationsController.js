@@ -22,6 +22,55 @@ const createApplication = catchAsync(async (req, res, next) => {
 
   const application = await Applications.create(validatedData);
 
+  // createApplication function mein — application create ke baad add karo:
+try {
+  const Settings = require("../model/settingsModal");
+  const EmailService = require("../utils/emailService");
+  const settings = await Settings.findOne();
+  const emailService = new EmailService(application.email);
+
+  if (settings?.applicationEmailTemplate) {
+    const compiledHtml = settings.applicationEmailTemplate
+      .replace(/{{fullname}}/g, `${application.firstName} ${application.lastName}`)
+      .replace(/{{email}}/g, application.email)
+      .replace(/{{position}}/g, application.jobTitle || "General Application");
+
+    await emailService.send({
+      subject: "✅ Application Received - WG Tech Solutions",
+      message: compiledHtml,
+    });
+  } else {
+    await emailService.send({
+      subject: "✅ Application Received - WG Tech Solutions",
+      template: "applicationConfirmation",
+      templateData: {
+        fullname: `${application.firstName} ${application.lastName}`,
+        email: application.email,
+        position: application.jobTitle || "General Application",
+      },
+    });
+  }
+} catch (emailError) {
+  console.error("📧 Email send failed:", emailError.message);
+}
+
+    // ✅ Email bhejo application for add kia ha?
+  // try {
+  //   const EmailService = require("../utils/emailService");
+  //   const emailService = new EmailService(application.email);
+  //   await emailService.send({
+  //     subject: "✅ Application Received - WG Tech Solutions",
+  //     template: "applicationConfirmation",
+  //     templateData: {
+  //       fullname: application.firstName + " " + application.lastName,
+  //       email: application.email,
+  //       position: application.jobTitle || "General Application",
+  //     },
+  //   });
+  // } catch (emailError) {
+  //   console.error("📧 Email send failed:", emailError.message);
+  // }
+
   successHandler(
     res,
     application,

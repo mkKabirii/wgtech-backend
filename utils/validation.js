@@ -326,6 +326,8 @@ const createProposalSchema = Joi.object({
     .optional(),
   budget: Joi.string().allow(null, "").optional(),
   messages: Joi.string().allow(null, "").optional(),
+  nationalId: Joi.string().allow(null, "").optional(), // ✅ ADD
+  password: Joi.string().min(6).allow(null, "").optional(), // ✅ ADD
   status: Joi.string()
     .valid("Pending", "Accepted", "Rejected", "In Progress", "Completed")
     .optional(),
@@ -487,11 +489,15 @@ const dashboardDateRangeSchema = Joi.object({
 const createSettingsSchema = Joi.object({
   privacyPolicy: Joi.string().required(),
   termsCondition: Joi.string().required(),
+  proposalEmailTemplate: Joi.string().allow("").optional(),      // ✅ NAYA
+  applicationEmailTemplate: Joi.string().allow("").optional(),   // ✅ NAYA
 });
 
 const updateSettingsSchema = Joi.object({
   privacyPolicy: Joi.string().optional(),
   termsCondition: Joi.string().optional(),
+  proposalEmailTemplate: Joi.string().allow("").optional(),      // ✅ NAYA
+  applicationEmailTemplate: Joi.string().allow("").optional(),   // ✅ NAYA
 });
 
 module.exports = {
