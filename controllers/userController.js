@@ -141,6 +141,32 @@ const deleteUser = catchAsync(async (req, res, next) => {
   successHandler(res, null, "User deleted successfully");
 });
 
+// GET /api/v1/users/profile
+const getProfile = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select("-password");
+  if (!user) return next(new AppError("User not found", 404));
+  successHandler(res, user, "Profile fetched successfully");
+});
+
+// PUT /api/v1/users/profile
+const updateProfile = catchAsync(async (req, res, next) => {
+  const { fullname, email, password } = req.body;
+  const updateData = { fullname, email };
+
+  if (password) {
+    const bcrypt = require("bcryptjs");
+    updateData.password = await bcrypt.hash(password, 12);
+  }
+
+  const user = await User.findByIdAndUpdate(req.user._id, updateData, {
+    new: true,
+    runValidators: true,
+  }).select("-password");
+
+  successHandler(res, user, "Profile updated successfully");
+});
+
+// module.exports = { ..., getProfile, updateProfile };
 // Toggle User Status
 const toggleUserStatus = catchAsync(async (req, res, next) => {
   const { id } = req.params;
@@ -160,9 +186,91 @@ const toggleUserStatus = catchAsync(async (req, res, next) => {
   );
 });
 
+// ✅ FORGOT PASSWORD — OTP Send
+const forgotPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  if (!email) return next(new AppError("Email is required", 400));
+
+  const user = await User.findOne({ email });
+  if (!user) return next(new AppError("No account found with this email", 404));
+
+  // Generate 6-digit OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+  // Save OTP in user
+  user.resetOtp = otp;
+  user.resetOtpExpiry = otpExpiry;
+  await user.save();
+
+  // Send OTP email
+  try {
+    const EmailService = require("../utils/emailService");
+    const emailService = new EmailService(email);
+    await emailService.send({
+      subject: "🔐 Password Reset OTP - WG Tech Solutions",
+      message: `
+        <div style="font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:30px;background:#111;color:#fff;border-radius:12px;">
+          <h2 style="color:#9EFF00;">Password Reset Request</h2>
+          <p>Hi <strong>${user.fullname || user.username}</strong>,</p>
+          <p>Your OTP for password reset is:</p>
+          <div style="background:#1a1a1a;border:2px solid #9EFF00;border-radius:8px;padding:20px;text-align:center;margin:20px 0;">
+            <h1 style="color:#9EFF00;font-size:48px;letter-spacing:8px;margin:0;">${otp}</h1>
+          </div>
+          <p style="color:#aaa;">This OTP expires in <strong style="color:#fff;">10 minutes</strong>.</p>
+          <p style="color:#aaa;">If you didn't request this, please ignore this email.</p>
+          <hr style="border-color:#333;margin:20px 0;">
+          <p style="color:#666;font-size:12px;">WG Tech Solutions Team</p>
+        </div>
+      `,
+    });
+  } catch (emailErr) {
+    console.error("OTP email failed:", emailErr.message);
+    return next(new AppError("Failed to send OTP email", 500));
+  }
+
+  successHandler(res, null, "OTP sent to your email");
+});
+
+// ✅ VERIFY OTP + RESET PASSWORD
+const resetPassword = catchAsync(async (req, res, next) => {
+  const { email, otp, newPassword } = req.body;
+
+  if (!email || !otp || !newPassword) {
+    return next(new AppError("Email, OTP and new password are required", 400));
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) return next(new AppError("User not found", 404));
+
+  // Check OTP
+  if (user.resetOtp !== otp) {
+    return next(new AppError("Invalid OTP", 400));
+  }
+
+  // Check expiry
+  if (!user.resetOtpExpiry || user.resetOtpExpiry < new Date()) {
+    return next(new AppError("OTP has expired. Please request a new one", 400));
+  }
+
+  // Hash new password
+  const bcrypt = require("bcryptjs");
+  user.password = await bcrypt.hash(newPassword, 12);
+  user.resetOtp = undefined;
+  user.resetOtpExpiry = undefined;
+  await user.save();
+
+  successHandler(res, null, "Password reset successfully! Please login.");
+});
+
 module.exports = {
+  
+  getProfile,
   createUser,
+  updateProfile,
   loginUser,
+  forgotPassword,  // ✅
+  resetPassword,   // ✅
   getAllUsers,
   getUserById,
   updateUser,

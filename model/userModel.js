@@ -51,7 +51,6 @@ const mongoose = require("mongoose");
 
 // module.exports = mongoose.model("User", userSchema);
 
-
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -98,6 +97,8 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    resetOtp: { type: String, default: null },
+    resetOtpExpiry: { type: Date, default: null },
     isActive: {
       type: Boolean,
       default: true,
@@ -106,7 +107,7 @@ const userSchema = new mongoose.Schema(
   {
     timestamps: true,
     collection: "users",
-  }
+  },
 );
 
 // ✅ LAST LINE BHI FIX KARO — double model error band hoga
