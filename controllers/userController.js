@@ -8,6 +8,38 @@ const { schemaValidator } = require("../utils/schemaValidator");
 const { createUserSchema } = require("../utils/validation");
 // const { generateToken } = require("../utils/jwt");
 
+// const { generateToken } = require("../utils/jwt");
+
+// ✅ Multer setup for profile picture
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
+const uploadDir = path.join(__dirname, "../uploads/profiles");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `profile_${Date.now()}${ext}`);
+  },
+});
+
+const uploadMiddleware = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // ✅ 10MB
+  fileFilter: (req, file, cb) => {
+    const allowed = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+    if (allowed.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only JPG, PNG, WEBP allowed"), false);
+    }
+  },
+}).single("profilePicture");
+
+// Create User
 // Create User
 const createUser = catchAsync(async (req, res, next) => {
   const [error, validatedData] = schemaValidator(req.body, createUserSchema);
@@ -15,7 +47,8 @@ const createUser = catchAsync(async (req, res, next) => {
     return next(new AppError(error, 400));
   }
 
-  const { email, username, password, role, designation, profileImage } = validatedData;
+  const { email, username, password, role, designation, profileImage } =
+    validatedData;
 
   // Check if user already exists
   const existingUser = await User.findOne({ email });
@@ -54,7 +87,7 @@ const loginUser = catchAsync(async (req, res, next) => {
     return next(new AppError("Invalid password", 400));
   }
 
-  const token = signToken(user._id);  // generate token
+  const token = signToken(user._id); // generate token
 
   successHandler(res, { user, token }, "User logged in successfully", 200);
 });
@@ -84,7 +117,7 @@ const getAllUsers = catchAsync(async (req, res, next) => {
       currentPage: page,
       total,
     },
-    "Users retrieved successfully"
+    "Users retrieved successfully",
   );
 });
 
@@ -182,7 +215,7 @@ const toggleUserStatus = catchAsync(async (req, res, next) => {
   successHandler(
     res,
     user,
-    `User ${user.isActive ? "activated" : "deactivated"} successfully`
+    `User ${user.isActive ? "activated" : "deactivated"} successfully`,
   );
 });
 
@@ -262,15 +295,69 @@ const resetPassword = catchAsync(async (req, res, next) => {
 
   successHandler(res, null, "Password reset successfully! Please login.");
 });
+// ✅ UPDATE PROFILE PICTURE
+// const updateProfilePicture = catchAsync(async (req, res, next) => {
+//   const multer = require("multer");
+//   const path = require("path");
+//   const fs = require("fs");
 
+//   // Upload directory
+//   const uploadDir = path.join(__dirname, "../uploads/profiles");
+//   if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+//   const storage = multer.diskStorage({
+//     destination: (req, file, cb) => cb(null, uploadDir),
+//     filename: (req, file, cb) => {
+//       const ext = path.extname(file.originalname);
+//       cb(null, `profile_${req.user._id}${ext}`);
+//     },
+//   });
+
+//   const upload = multer({ storage, limits: { fileSize: 2 * 1024 * 1024 } }).single("profilePicture");
+
+//   upload(req, res, async (err) => {
+//     if (err) return next(new AppError("Upload failed: " + err.message, 400));
+//     if (!req.file) return next(new AppError("No file uploaded", 400));
+
+//     const profilePicture = `/uploads/profiles/${req.file.filename}`;
+
+//     const user = await User.findByIdAndUpdate(
+//       req.user._id,
+//       { profilePicture },
+//       { new: true }
+//     ).select("-password");
+
+//     successHandler(res, user, "Profile picture updated successfully");
+//   });
+// });
+const updateProfilePicture = (req, res, next) => {
+  uploadMiddleware(req, res, async (err) => {
+    if (err) return next(new AppError("Upload failed: " + err.message, 400));
+    if (!req.file) return next(new AppError("No file uploaded", 400));
+
+    try {
+      const profilePicture = `/uploads/profiles/${req.file.filename}`;
+
+      const user = await User.findByIdAndUpdate(
+        req.user._id,
+        { profilePicture },
+        { new: true },
+      ).select("-password");
+
+      successHandler(res, user, "Profile picture updated successfully");
+    } catch (error) {
+      next(new AppError("Database update failed", 500));
+    }
+  });
+};
 module.exports = {
-  
   getProfile,
   createUser,
   updateProfile,
   loginUser,
-  forgotPassword,  // ✅
-  resetPassword,   // ✅
+  updateProfilePicture, // ✅
+  forgotPassword, // ✅
+  resetPassword, // ✅
   getAllUsers,
   getUserById,
   updateUser,

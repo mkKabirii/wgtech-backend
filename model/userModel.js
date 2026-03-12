@@ -99,6 +99,10 @@ const userSchema = new mongoose.Schema(
     },
     resetOtp: { type: String, default: null },
     resetOtpExpiry: { type: Date, default: null },
+    profilePicture: {
+      type: String,
+      default: "",
+    },
     isActive: {
       type: Boolean,
       default: true,

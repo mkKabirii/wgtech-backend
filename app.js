@@ -1,3 +1,4 @@
+// server.js
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -11,8 +12,7 @@ const path = require("path");
 const errorMiddleware = require("./middleware/errorMiddleware");
 const AppError = require("./utils/appError");
 
-
-// ✅ SIRF EK BAAR — top mein
+// Routes
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
@@ -39,32 +39,39 @@ const settingsRoutes = require("./routes/settingsRoutes");
 
 const app = express();
 
+// ----------------------- MIDDLEWARES ----------------------- //
+
+// Security headers
 app.use(helmet());
 
+// Logging (only in development)
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-// Enable CORS
-app.use(cors());
+// CORS
+app.use(cors({
+  origin: "http://localhost:3000", // Frontend URL
+  credentials: true,               // Allow cookies
+}));
 
-// Body parser
+// Body parsers
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 
-// Data sanitization against NoSQL query injection and XSS attacks
+// Data sanitization
 app.use(mongoSanitize());
 app.use(xss());
 
-// Compression middleware
+// Compression
 app.use(compression());
 
-// Set view engine and views folder if using views
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// ----------------------- STATIC FILES ----------------------- //
+// Serve uploaded files
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+// ----------------------- ROUTES ----------------------- //
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/services", serviceRoutes);
@@ -89,14 +96,13 @@ app.use("/api/v1/applications", applicationsRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/settings", settingsRoutes);
 
-
-
-// Handle unhandled routes
+// ----------------------- UNHANDLED ROUTES ----------------------- //
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-// Global error handling middleware
+// ----------------------- GLOBAL ERROR HANDLER ----------------------- //
 app.use(errorMiddleware);
 
+// ----------------------- EXPORT APP ----------------------- //
 module.exports = app;
